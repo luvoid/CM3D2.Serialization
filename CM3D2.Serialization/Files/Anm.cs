@@ -12,9 +12,9 @@ using CM3D2.Serialization.Collections;
 
 namespace CM3D2.Serialization.Files
 {
-	public class Anm : ICM3D2Serializable
+	public class Anm : ICM3D2Serializable, ISummarizable
 	{
-		public string signature = "CM3D2_ANIM";
+		public readonly string signature = "CM3D2_ANIM";
 		public int version;
 		public List<Track> tracks = new List<Track>(); // Uses unique list serialization
 
@@ -40,25 +40,66 @@ namespace CM3D2.Serialization.Files
 			}
 		}
 
-		void ICM3D2Serializable.WriteWith(CM3D2Formatter formatter)
+		void ICM3D2Serializable.WriteWith(ICM3D2Writer writer)
 		{
-			formatter.Write(signature);
-			formatter.Write(version);
+			writer.Write(signature, Encoding.ASCII);
+			writer.Write(version);
 			foreach (var track in tracks)
 			{
-				formatter.Write(track.channelId);
-				formatter.Write(track.path);
+				writer.Write(track.channelId);
+				writer.Write(track.path);
 				foreach (var channel in track.channels)
 				{
-					formatter.Write(channel.channelId);
-					channel.keyframes.WriteWith(formatter);
+					writer.Write(channel.channelId);
+					writer.Write(channel.keyframes);
 				}
+			}
+			writer.Write((byte)0);
+		}
+
+		void ICM3D2Serializable.ReadWith(ICM3D2Reader reader)
+		{
+			reader.Read(out string readSignature);
+			if (readSignature != signature) throw new FormatException($"Expected signature \"{signature}\" but instead found \"{readSignature}\"");
+
+			reader.Read(out version);
+
+			while (reader.Peek<byte>() == 1)
+			{
+				Track track = new Track();
+				tracks.Add(track);
+				reader.Read<byte>(out _); // track.channelId
+				reader.Read(out track.path);
+
+				while (reader.Peek<byte>() > 1)
+				{
+					Track.Channel channel = new Track.Channel();
+					track.channels.Add(channel);
+					reader.Read(out channel.channelId);
+					reader.Read(out channel.keyframes);
+				}
+			}
+
+			reader.Read(out byte finalByte);
+			if (finalByte != 0)
+			{
+				throw new FormatException($"Unexpected channelId {finalByte} (expected 0)");
 			}
 		}
 
-		void ICM3D2Serializable.ReadWith(CM3D2Formatter formatter)
+
+		public string Summarize()
 		{
-			throw new NotImplementedException();
+			return 
+				$"Anm {{ " +
+					$"{signature} v{version} Track[{tracks.Count}] {{" +
+						$"Channel[{tracks[0].channels.Count}] {{" +
+							$"Keyframe[{tracks[0].channels[0].keyframes.Length}], " +
+							$"..." +
+						$"}}, " +
+						$"..." +
+					$"}}" +
+				$" }}";
 		}
 	}
 }

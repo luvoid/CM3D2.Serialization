@@ -10,12 +10,8 @@ using System.Runtime.Serialization;
 namespace CM3D2.Serialization.Tests
 {
 	[TestClass]
-	public class TestCM3D2Serialization
+	public class TestBuiltin : CommonTest
 	{
-		MemoryStream m_Stream = new MemoryStream();
-		CM3D2Formatter m_Formatter = new CM3D2Formatter();
-
-
 		[TestMethod]
 		public void TestSerializeBool()
 		{
@@ -170,40 +166,6 @@ namespace CM3D2.Serialization.Tests
 
 
 			Assert.AreEqual(expected, result);
-		}
-
-		[TestMethod]
-		public void TestSerializeAnm()
-		{
-			Anm anm = new Anm();
-
-			m_Formatter.Serialize(m_Stream, anm);
-
-
-			m_Stream.Position = 0; // Reset stream position
-
-
-			byte[] result = ReadBytes();
-			PrintBytes(result);
-		}
-
-
-		byte[] ReadBytes(int count = 4096, Stream stream = null)
-		{
-			if (stream == null) stream = m_Stream;
-			var bytes = new byte[count];
-			int readCount = stream.Read(bytes, 0, count);
-			Array.Resize(ref bytes, readCount);
-			return bytes;
-		}
-
-		void PrintBytes(byte[] bytes)
-		{
-			foreach (byte b in bytes)
-			{
-				Console.Write($"{b:X2} ");
-			}
-			Console.WriteLine();
 		}
 
 

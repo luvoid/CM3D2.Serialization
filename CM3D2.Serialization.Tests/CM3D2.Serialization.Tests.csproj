@@ -50,11 +50,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssertExtensions.cs" />
+    <Compile Include="CommonTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestCM3D2Serialization.cs" />
+    <Compile Include="TestAnm.cs" />
+    <Compile Include="TestBuiltin.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="maid_stand01.anm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
+    <None Include="push_ups.anm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="T-Pose.anm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CM3D2.Serialization\CM3D2.Serialization.csproj">

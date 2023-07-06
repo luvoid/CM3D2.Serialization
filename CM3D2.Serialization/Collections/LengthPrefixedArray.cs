@@ -13,26 +13,26 @@ namespace CM3D2.Serialization.Collections
 	{
 		private T[] m_Array;
 
-		public void WriteWith(CM3D2Formatter formatter)
+		void ICM3D2Serializable.WriteWith(ICM3D2Writer writer)
 		{
-			formatter.Write(m_Array.Length);
+			writer.Write(m_Array.Length);
 
 			// TODO casting to byte[] and writing that is likely much faster.
 			foreach (T element in m_Array)
 			{
-				formatter.Write(element);
+				writer.Write(element);
 			}
 		}
 
-		public void ReadWith(CM3D2Formatter formatter)
+		unsafe void ICM3D2Serializable.ReadWith(ICM3D2Reader reader)
 		{
-			byte length = formatter.Read<byte>();
+			reader.Read(out byte length);
 			m_Array = new T[length];
 
 			// TODO casting to byte[] and reading that is likely much faster.
 			for (int i = 0; i < length; i++)
 			{
-				m_Array[i] = formatter.Read<T>();
+				reader.Read(out m_Array[i]);
 			}
 		}
 

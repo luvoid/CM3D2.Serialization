@@ -5,9 +5,8 @@ using System.Text;
 
 namespace CM3D2.Serialization
 {
-	public interface ICM3D2Serializable
+	interface ISummarizable
 	{
-		void WriteWith(ICM3D2Writer formatter);
-		void ReadWith(ICM3D2Reader formatter);
+		string Summarize();
 	}
 }
