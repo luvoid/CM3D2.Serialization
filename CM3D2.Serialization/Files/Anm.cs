@@ -73,6 +73,7 @@ namespace CM3D2.Serialization.Files
 
 				while (reader.Peek<byte>() > 1)
 				{
+					reader.DebugLogStreamPosition("channel");
 					Track.Channel channel = new Track.Channel();
 					track.channels.Add(channel);
 					reader.Read(out channel.channelId);
@@ -80,6 +81,7 @@ namespace CM3D2.Serialization.Files
 				}
 			}
 
+			reader.DebugLogStreamPosition("final byte");
 			reader.Read(out byte finalByte);
 			if (finalByte != 0)
 			{

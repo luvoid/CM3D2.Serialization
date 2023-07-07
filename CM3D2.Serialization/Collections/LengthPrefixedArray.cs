@@ -26,8 +26,8 @@ namespace CM3D2.Serialization.Collections
 
 		unsafe void ICM3D2Serializable.ReadWith(ICM3D2Reader reader)
 		{
-			reader.Read(out byte length);
-			m_Array = new T[length];
+			reader.Read(out uint length);
+			m_Array = new T[(long)length];
 
 			// TODO casting to byte[] and reading that is likely much faster.
 			for (int i = 0; i < length; i++)

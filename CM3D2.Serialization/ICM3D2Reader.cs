@@ -13,5 +13,7 @@ namespace CM3D2.Serialization
 		void Read(out string str, Encoding encoding = null);
 		void Read<T>(out T val) where T : unmanaged;
 		void Read<T>(out T obj, object _ = null) where T : ICM3D2Serializable, new();
+
+		void DebugLogStreamPosition(string note);
 	}
 }

@@ -51,9 +51,16 @@
     <Compile Include="CM3D2Formatter.cs" />
     <Compile Include="CM3D2Reader.cs" />
     <Compile Include="CM3D2Writer.cs" />
+    <Compile Include="Collections\ArrayCollectionBase.cs" />
+    <Compile Include="Collections\ArrayBase.cs" />
     <Compile Include="Collections\ContinuousList.cs" />
+    <Compile Include="Collections\Generics\ArrayBaseT.cs" />
+    <Compile Include="Collections\Generics\HugeArrayT.cs" />
+    <Compile Include="Collections\Generics\IArrayT.cs" />
+    <Compile Include="Collections\IArray.cs" />
     <Compile Include="Collections\LengthPrefixedArray.cs" />
     <Compile Include="Files\Anm.cs" />
+    <Compile Include="Collections\IArrayCollection.cs" />
     <Compile Include="ICM3D2Reader.cs" />
     <Compile Include="ICM3D2Serializable.cs" />
     <Compile Include="ICM3D2Writer.cs" />
@@ -61,5 +68,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Structs\FloatN.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

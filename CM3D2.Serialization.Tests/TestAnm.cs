@@ -9,7 +9,6 @@ namespace CM3D2.Serialization.Tests
 	public class TestAnm : CommonTest
 	{
 		const string k_ExamplePosePath = "T-Pose.anm";
-		//const string k_ExampleActionPath = "maid_stand01.anm";
 		const string k_ExampleActionPath = "push_ups.anm";
 
 		[TestMethod]

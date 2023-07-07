@@ -69,5 +69,12 @@ namespace CM3D2.Serialization
 			return bytes;
 		}
 
+		public void DebugLogStreamPosition(string note)
+		{
+#if DEBUG
+			Console.Error.WriteLine($"{note} at stream position 0x{m_Stream.Position:X8}");
+#endif
+		}
+
 	}
 }
