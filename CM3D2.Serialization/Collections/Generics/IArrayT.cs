@@ -25,6 +25,62 @@ namespace CM3D2.Serialization.Collections.Generics
 		T this[int index] { get; set; }
 
 		/// <summary>
+		///     Copies all the elements of the specified one-dimensional <see cref="Array"/> to the current
+		///     one-dimensional <see cref="IArray{T}"/> starting at the specified destination <see cref="IArray{T}"/>
+		///     index. The index is specified as a 32-bit integer.
+		/// </summary>
+		/// <param name="array">
+		///     The one-dimensional <see cref="Array"/> that is the source of the elements copied
+		///     to the current <see cref="IArray{T}"/>.
+		/// </param>
+		/// <param name="index">
+		///     A 32-bit integer that represents the index in array at which copying begins.
+		/// </param>
+		/// <exception cref="System.ArgumentNullException">
+		///     array is null.
+		/// </exception>
+		/// <exception cref="System.ArgumentOutOfRangeException">
+		///     index is outside the range of valid indexes for array.
+		/// </exception>
+		/// <exception cref="System.ArgumentException">
+		///     array is multidimensional.-or-The number of elements in the source <see cref="IArray{T}"/>
+		///     is greater than the available space from index to the end of the destination
+		///     array.
+		/// </exception>
+		/// <exception cref="System.RankException">
+		///     The source <see cref="Array"/> is multidimensional.
+		/// </exception>
+		void CopyFrom(T[] array, int toIndex);
+
+		/// <summary>
+		///     Copies all the elements of the specified one-dimensional <see cref="T[]"/> to the current
+		///     one-dimensional <see cref="IArray{T}"/> starting at the specified destination <see cref="IArray{T}"/>
+		///     index. The index is specified as a 64-bit integer.
+		/// </summary>
+		/// <param name="array">
+		///     The one-dimensional <see cref="Array"/> that is the source of the elements copied
+		///     to the current <see cref="IArray{T}"/>.
+		/// </param>
+		/// <param name="toIndex">
+		///     A 64-bit integer that represents the index in array at which copying begins.
+		/// </param>
+		/// <exception cref="System.ArgumentNullException">
+		///     array is null.
+		/// </exception>
+		/// <exception cref="System.ArgumentOutOfRangeException">
+		///     index is outside the range of valid indexes for array.
+		/// </exception>
+		/// <exception cref="System.ArgumentException">
+		///     array is multidimensional.-or-The number of elements in the source <see cref="IArray{T}"/>
+		///     is greater than the available space from index to the end of the destination
+		///     array.
+		/// </exception>
+		/// <exception cref="System.RankException">
+		///     The source <see cref="IArray{T}"/> is multidimensional.
+		/// </exception>
+		void CopyFrom(T[] array, long toIndex);
+
+		/// <summary>
 		///     Copies the elements of the System.Collections.Generic.ICollection`1 to an System.Array,
 		///     starting at a particular System.Array index.
 		/// </summary>

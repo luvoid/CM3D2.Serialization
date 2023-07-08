@@ -20,6 +20,10 @@ namespace CM3D2.Serialization.Collections.Generics
 
 		public virtual T this[int index] { get => GetValue(index); set => SetValue(value, index); }
 
+
+
+		public abstract void CopyFrom(T[] array, int toIndex);
+		public abstract void CopyFrom(T[] array, long toIndex);
 		public virtual void CopyTo(T[] array, int arrayIndex) => CopyTo((Array)array, arrayIndex);
 		public abstract void CopyTo(IArray<T> array, int index);
 		public abstract void CopyTo(IArray<T> array, long index);

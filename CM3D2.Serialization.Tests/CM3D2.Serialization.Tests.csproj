@@ -54,17 +54,20 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestAnm.cs" />
     <Compile Include="TestBuiltin.cs" />
-    <Compile Include="TestCollections.cs" />
+    <Compile Include="TestHugeArray.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="maid_stand01.anm">
+    <None Include="Resources\dance_cm3d21_008_1oy_c01_02_f1.anm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\maid_stand01.anm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
-    <None Include="push_ups.anm">
+    <None Include="Resources\push_ups.anm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="T-Pose.anm">
+    <None Include="Resources\T-Pose.anm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -23,26 +23,42 @@ namespace CM3D2.Serialization
 			m_Stream = null;
 		}
 
-		public void Write(string str, Encoding encoding = null)
-		{
-			if (encoding == null) encoding = Encoding.UTF8;
-			byte[] bytes = encoding.GetBytes(str);
-			m_Stream.WriteByte((byte)bytes.Length);
-			m_Stream.Write(bytes, 0, bytes.Length);
-		}
-
 		public void Write(ICM3D2Serializable obj)
 		{
 			obj.WriteWith(this);
 		}
 
+		public void Write(string str, Encoding encoding = null)
+		{
+			if (encoding == null) encoding = Encoding.UTF8;
+			byte[] bytes = encoding.GetBytes(str);
+			Write((Int7Bit32)bytes.Length);
+			m_Stream.Write(bytes, 0, bytes.Length);
+		}
+
 		public void Write<T>(T val)
 			where T : unmanaged
 		{
-			if (typeof(T) == typeof(bool))
+			if (val is ICM3D2Serializable serializable)
 			{
-				WriteBool((bool)(object)val); // bools should only ever be 1 byte in length
+				serializable.WriteWith(this);
 			}
+
+			else if (val is bool boolVal)
+			{
+				WriteBool(boolVal); // bools should only ever be 1 byte in length
+			}
+
+			else if (!typeof(T).IsBytesCastable())
+			{
+				throw new ArgumentException($"Cannot write struct {typeof(T).Name} with an invalid StructLayout");
+			}
+			
+			else if (val is byte b)
+			{
+				m_Stream.WriteByte(b);
+			}
+
 			else
 			{
 				byte[] bytes = ToBytes(val);
@@ -50,7 +66,16 @@ namespace CM3D2.Serialization
 			}
 		}
 
-		protected void WriteBool(bool val)
+		public void Write<T>(T? val)
+			where T : unmanaged
+		{
+			if (val.HasValue)
+			{
+				Write(val.Value);
+			}
+		}
+
+			protected void WriteBool(bool val)
 		{
 			m_Stream.WriteByte(!val ? (byte)0 : (byte)1); // bools should only ever be 1 byte in length
 		}
@@ -69,7 +94,7 @@ namespace CM3D2.Serialization
 			return bytes;
 		}
 
-		public void DebugLogStreamPosition(string note)
+		public void DebugLog(string note)
 		{
 #if DEBUG
 			Console.Error.WriteLine($"{note} at stream position 0x{m_Stream.Position:X8}");

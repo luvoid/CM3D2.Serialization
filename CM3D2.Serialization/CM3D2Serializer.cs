@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 
 namespace CM3D2.Serialization
 {
-	public class CM3D2Formatter : IFormatter
+	public class CM3D2Serializer : IFormatter
 	{
 		public ISurrogateSelector SurrogateSelector { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public SerializationBinder Binder { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -22,7 +22,7 @@ namespace CM3D2.Serialization
 			{
 				if (obj is string str)
 				{
-					writer.Write(str, Encoding.UTF8);
+					writer.Write(str);
 				}
 				else if (obj is ICM3D2Serializable serializable)
 				{

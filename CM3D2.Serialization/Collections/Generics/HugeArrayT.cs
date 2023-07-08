@@ -70,6 +70,13 @@ namespace CM3D2.Serialization.Collections.Generics
 			}
 		}
 
+		public override void CopyFrom(T[] array, int toIndex) => CopyFrom(array, (long)toIndex);
+
+		public override void CopyFrom(T[] array, long toIndex)
+		{
+			throw new NotImplementedException();
+		}
+
 		public override void CopyTo(IArray<T> array, int index) => CopyTo(array, (long)index);
 
 		public override void CopyTo(IArray<T> array, long index)

@@ -7,7 +7,7 @@ namespace CM3D2.Serialization
 {
 	public interface ICM3D2Serializable
 	{
-		void WriteWith(ICM3D2Writer formatter);
-		void ReadWith(ICM3D2Reader formatter);
+		void WriteWith(ICM3D2Writer writer);
+		void ReadWith(ICM3D2Reader reader);
 	}
 }

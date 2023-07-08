@@ -70,7 +70,7 @@ namespace CM3D2.Serialization.Tests
 			TestIndex(-1, expectInvalid: true);
 		}
 
-		[TestMethod]
+		//[TestMethod]
 		public void TestTranslateIndexFull()
 		{
 			// This will take a really long time...

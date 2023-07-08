@@ -1,17 +1,29 @@
-﻿using System;
+﻿using CM3D2.Serialization.Collections.Generics;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
 
 namespace CM3D2.Serialization.Collections
 {
-	public class LengthPrefixedArray<T> : ICloneable, IList<T>, ICM3D2Serializable
+	public class LengthPrefixedArray<T> : ArrayBase<T>, ICM3D2Serializable
 		where T : unmanaged
 	{
 		private T[] m_Array;
+
+		public LengthPrefixedArray(int size)
+		{
+			m_Array = new T[size];
+		}
+
+		protected LengthPrefixedArray(T[] array)
+		{
+			m_Array = array;
+		}
 
 		void ICM3D2Serializable.WriteWith(ICM3D2Writer writer)
 		{
@@ -26,8 +38,8 @@ namespace CM3D2.Serialization.Collections
 
 		unsafe void ICM3D2Serializable.ReadWith(ICM3D2Reader reader)
 		{
-			reader.Read(out uint length);
-			m_Array = new T[(long)length];
+			reader.Read(out int length);
+			m_Array = new T[length];
 
 			// TODO casting to byte[] and reading that is likely much faster.
 			for (int i = 0; i < length; i++)
@@ -37,66 +49,50 @@ namespace CM3D2.Serialization.Collections
 		}
 
 
-		public int Length => m_Array.Length;
-		public long LongLength => m_Array.LongLength;
+		public override int Length => m_Array.Length;
+		public override long LongLength => m_Array.LongLength;
 
-		/// <summary> Gets the zero-based rank (number of dimensions) of the System.Array. </summary>
-		/// <returns> The zero-based rank (number of dimensions) of the System.Array. </returns>
-		public int Rank => m_Array.Rank;
-		
-		/// <summary> Gets an object that can be used to synchronize access to the System.Array. </summary>
-		/// <returns> An object that can be used to synchronize access to the System.Array. </returns>
-		public object SyncRoot => m_Array.SyncRoot;
-		
-		/// <summary> Gets a value indicating whether the System.Array has a fixed size. </summary>
-		/// <returns> This property is always true for all arrays. </returns>
-		public bool IsFixedSize => m_Array.IsSynchronized;
+		public override void CopyFrom(T[] array, int toIndex)
+		{
+			array.CopyTo(m_Array, toIndex);
+		}
 
-		/// <summary> Gets a value indicating whether access to the System.Array is synchronized (thread safe). </summary>
-		/// <returns> This property is always false for all arrays. </returns>
-		public bool IsSynchronized => m_Array.IsSynchronized;
+		public override void CopyFrom(T[] array, long toIndex)
+		{
+			array.CopyTo(m_Array, toIndex);
+		}
 
+		public override void CopyTo(IArray<T> array, int index)
+		{
+			array.CopyFrom(m_Array, index);
+		}
 
-		public T this[int index] { get => m_Array[index]; set => m_Array[index] = value; }
+		public override void CopyTo(IArray<T> array, long index)
+		{
+			array.CopyFrom(m_Array, index);
+		}
 
-		int ICollection<T>.Count => ((ICollection<T>)m_Array).Count;
-		   
-		/// <summary>
-		/// Gets a value indicating whether the System.Array is read-only.
-		/// </summary>
-		public bool IsReadOnly => m_Array.IsReadOnly;
+		public override T GetValue(int index) => m_Array[index];
+		public override T GetValue(long index) => m_Array[index];
+		public override void SetValue(T value, int index) => m_Array[index] = value;
+		public override void SetValue(T value, long index) => m_Array[index] = value;
 
-		void ICollection<T>.Add(T item) 
-			=> ((ICollection<T>)m_Array).Add(item);
+		protected override IEnumerator<T> GetGenericEnumerator() => (m_Array as IEnumerable<T>).GetEnumerator();
 
-		void ICollection<T>.Clear() 
-			=> ((ICollection<T>)m_Array).Clear();
+		protected override int IndexOf(T obj) => (m_Array as IList).IndexOf(obj);
 
-		public object Clone() 
-			=> m_Array.Clone();
+		protected override void Clear() => (m_Array as IList).Clear();
 
-		public bool Contains(T item) 
-			=> m_Array.Contains(item);
+		public override void CopyTo(Array array, int index) => m_Array.CopyTo(array, index);
 
-		public void CopyTo(T[] array, int arrayIndex)
-			=> m_Array.CopyTo(array, arrayIndex);
+		public override void CopyTo(Array array, long index) => m_Array.CopyTo(array, index);
 
-		int IList<T>.IndexOf(T item)
-			=> ((IList<T>)m_Array).IndexOf(item);
+		public override object Clone() => new LengthPrefixedArray<T>(m_Array.Clone() as T[]);
 
-		void IList<T>.Insert(int index, T item)
-			=> ((IList<T>)m_Array).Insert(index, item);
-
-		bool ICollection<T>.Remove(T item)
-			=> ((ICollection<T>)m_Array).Remove(item);
-
-		void IList<T>.RemoveAt(int index)
-			=> ((IList<T>)m_Array).RemoveAt(index);
-
-		public IEnumerator GetEnumerator()
-			=> m_Array.GetEnumerator();
-
-		IEnumerator<T> IEnumerable<T>.GetEnumerator()
-			=> ((IEnumerable<T>)m_Array).GetEnumerator();
+		public override void Initialize()
+		{
+			if (m_Array == null) m_Array = new T[0];
+			m_Array.Initialize();
+		}
 	}
 }

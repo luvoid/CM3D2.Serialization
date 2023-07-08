@@ -17,14 +17,14 @@ namespace CM3D2.Serialization.Tests
 		{
 			bool expected = true;
 
-			m_Formatter.Serialize(m_Stream, expected);
+			m_Serializer.Serialize(m_Stream, expected);
 
 
 			m_Stream.Position = 0; // Reset stream position
 
 
 			byte[] bytes = ReadBytes();
-			PrintBytes(bytes);
+			Console.WriteLine(bytes.ToHexString());
 			bool result = BitConverter.ToBoolean(bytes, 0);
 			Console.WriteLine(result);
 
@@ -37,14 +37,14 @@ namespace CM3D2.Serialization.Tests
 		{
 			int expected = 1234567890;
 
-			m_Formatter.Serialize(m_Stream, expected);
+			m_Serializer.Serialize(m_Stream, expected);
 
 
 			m_Stream.Position = 0; // Reset stream position
 
 
 			byte[] bytes = ReadBytes();
-			PrintBytes(bytes);
+			Console.WriteLine(bytes.ToHexString());
 			int result = BitConverter.ToInt32(bytes, 0);
 			Console.WriteLine(result);
 
@@ -64,7 +64,7 @@ namespace CM3D2.Serialization.Tests
 			m_Stream.Position = 0; // Reset stream position
 
 
-			int result = m_Formatter.Deserialize<int>(m_Stream);
+			int result = m_Serializer.Deserialize<int>(m_Stream);
 			Console.WriteLine(result);
 
 
@@ -78,14 +78,14 @@ namespace CM3D2.Serialization.Tests
 			Float3 expected = new Float3(0.1f, 2.3f, 4.5f);
 			Console.WriteLine($"expected = {expected}");
 
-			m_Formatter.Serialize(m_Stream, expected);
+			m_Serializer.Serialize(m_Stream, expected);
 
 
 			m_Stream.Position = 0; // Reset stream position
 
 
 			byte[] bytes = ReadBytes();
-			PrintBytes(bytes);
+			Console.WriteLine(bytes.ToHexString());
 			float resultX = BitConverter.ToSingle(bytes, 0);
 			float resultY = BitConverter.ToSingle(bytes, 4);
 			float resultZ = BitConverter.ToSingle(bytes, 8);
@@ -117,7 +117,7 @@ namespace CM3D2.Serialization.Tests
 			m_Stream.Position = 0; // Reset stream position
 
 
-			Float3 result = m_Formatter.Deserialize<Float3>(m_Stream);
+			Float3 result = m_Serializer.Deserialize<Float3>(m_Stream);
 			Console.WriteLine($"result = {result}");
 
 
@@ -133,14 +133,14 @@ namespace CM3D2.Serialization.Tests
 			string testString = "CM3D2_MODEL";
 			byte[] expected = { 11, (byte)'C', (byte)'M', (byte)'3', (byte)'D', (byte)'2', (byte)'_', (byte)'M', (byte)'O', (byte)'D', (byte)'E', (byte)'L' };
 
-			m_Formatter.Serialize(m_Stream, testString);
+			m_Serializer.Serialize(m_Stream, testString);
 
 
 			m_Stream.Position = 0; // Reset stream position
 
 
 			byte[] result = ReadBytes();
-			PrintBytes(result);
+			Console.WriteLine(result.ToHexString());
 			for (int i = 1; i-1 < result[0]; i++)
 			{
 				Console.Write((char)result[i]);
@@ -162,8 +162,34 @@ namespace CM3D2.Serialization.Tests
 			m_Stream.Position = 0; // Reset stream position
 
 
-			string result = m_Formatter.Deserialize<string>(m_Stream);
+			string result = m_Serializer.Deserialize<string>(m_Stream);
 
+
+			Assert.AreEqual(expected, result);
+		}
+
+		[TestMethod]
+		public void TestLongString()
+		{
+			string expected = "0123456789" +
+				"ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+				"abcdefghijklmnopqrstuvwxyz" +
+				"０１２３４５６７８９" +
+				"ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ" +
+				"ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ" +
+				"ぁあぃいぅうぇえぉおかがきぎく" +
+				"ぐけげこごさざしじすずせぜそぞた" +
+				"だちぢっつづてでとどなにぬねのは" +
+				"ばぱひびぴふぶぷへべぺほぼぽまみ" +
+				"むめもゃやゅゆょよらりるれろゎわ " +
+				"ゐゑをんゔゕゖ゛゜ゝゞゟ";
+
+
+			m_Serializer.Serialize(m_Stream, expected);
+
+			m_Stream.Position = 0; // Reset stream position
+
+			string result = m_Serializer.Deserialize<string>(m_Stream);
 
 			Assert.AreEqual(expected, result);
 		}

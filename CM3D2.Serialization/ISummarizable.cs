@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CM3D2.Serialization
 {
-	interface ISummarizable
+	public interface ISummarizable
 	{
 		string Summarize();
 	}

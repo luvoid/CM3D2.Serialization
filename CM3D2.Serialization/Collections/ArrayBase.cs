@@ -17,12 +17,14 @@ namespace CM3D2.Serialization.Collections
 	public abstract class ArrayBase : ArrayCollectionBase, IArray, IList
 	{
 		/// <summary>
-		///     Gets or sets the element at the specified index.		/// </summary>
+		///     Gets or sets the element at the specified index.
+		/// </summary>
 		/// <param name="index">
 		///     The index of the element to get or set.
 		/// </param>
 		/// <returns>
-		///     The element at the specified index.		/// </returns>
+		///     The element at the specified index.
+		/// </returns>
 		/// <exception cref="System.ArgumentOutOfRangeException">
 		///     index is less than zero.-or-index is equal to or greater than System.Collections.ICollection.Count.
 		/// </exception>
@@ -44,10 +46,12 @@ namespace CM3D2.Serialization.Collections
 		public abstract void SetValue(object value, long index);
 
 		/// <summary>
-		///     Implements System.Collections.IList.Add(System.Object). Throws a System.NotSupportedException		///     in all cases.
+		///     Implements System.Collections.IList.Add(System.Object). Throws a System.NotSupportedException
+		///     in all cases.
 		/// </summary>
 		/// <returns>
-		///     An exception is always thrown.		/// </returns>
+		///     An exception is always thrown.
+		/// </returns>
 		/// <exception cref="System.NotSupportedException">
 		///     In all cases.
 		/// </exception>
@@ -57,13 +61,15 @@ namespace CM3D2.Serialization.Collections
 		}
 
 		/// <summary>
-		///     Determines whether an element is in the <see cref="IArray"/>.		/// </summary>
+		///     Determines whether an element is in the <see cref="IArray"/>.
+		/// </summary>
 		/// <param name="value">
 		///     The object to locate in the <see cref="IArray"/>. The element to locate can be null for
 		///     reference types.
 		/// </param>
 		/// <returns>
-		///     true if value is found in the <see cref="IArray"/>; otherwise, false.		/// </returns>
+		///     true if value is found in the <see cref="IArray"/>; otherwise, false.
+		/// </returns>
 		/// <exception cref="System.RankException">
 		///     The current <see cref="IArray"/> is multidimensional.
 		/// </exception>
@@ -73,7 +79,8 @@ namespace CM3D2.Serialization.Collections
 		}
 
 		/// <summary>
-		///     Sets all elements in the <see cref="IArray"/> to zero, to false, or to null, depending		///     on the element type.
+		///     Sets all elements in the <see cref="IArray"/> to zero, to false, or to null, depending
+		///     on the element type.
 		/// </summary>
 		/// <exception cref="System.NotSupportedException">
 		///     The <see cref="IArray"/> is read-only.
@@ -81,13 +88,15 @@ namespace CM3D2.Serialization.Collections
 		void IList.Clear() => Clear();
 
 		/// <summary>
-		///     Searches for the specified object and returns the index of the first occurrence		///     within the current one-dimensional instance.
+		///     Searches for the specified object and returns the index of the first occurrence
+		///     within the current one-dimensional instance.
 		/// </summary>
 		/// <param name="value">
 		///     The object to locate in the current <see cref="IArray"/>.
 		/// </param>
 		/// <returns>
-		///     The index of the first occurrence of value within the entire <see cref="IArray"/>, if		///     found; otherwise, the lower bound of the <see cref="IArray"/> minus 1.
+		///     The index of the first occurrence of value within the entire <see cref="IArray"/>, if
+		///     found; otherwise, the lower bound of the <see cref="IArray"/> minus 1.
 		/// </returns>
 		/// <exception cref="System.RankException">
 		///     The current <see cref="IArray"/> is multidimensional.
@@ -95,7 +104,8 @@ namespace CM3D2.Serialization.Collections
 		int IList.IndexOf(object value) => IndexOf(value);
 
 		/// <summary>
-		///     Implements System.Collections.IList.Insert(System.Int32,System.Object). Throws		///     a System.NotSupportedException in all cases.
+		///     Implements System.Collections.IList.Insert(System.Int32,System.Object). Throws
+		///     a System.NotSupportedException in all cases.
 		/// </summary>
 		/// <exception cref="System.NotSupportedException">
 		///     In all cases.
@@ -106,7 +116,8 @@ namespace CM3D2.Serialization.Collections
 		}
 
 		/// <summary>
-		///     Implements System.Collections.IList.Remove(System.Object). Throws a System.NotSupportedException		///     in all cases.
+		///     Implements System.Collections.IList.Remove(System.Object). Throws a System.NotSupportedException
+		///     in all cases.
 		/// </summary>
 		/// <exception cref="System.NotSupportedException">
 		///     In all cases.
@@ -117,7 +128,8 @@ namespace CM3D2.Serialization.Collections
 		}
 
 		/// <summary>
-		///     Implements System.Collections.IList.RemoveAt(System.Int32). Throws a System.NotSupportedException		///     in all cases.
+		///     Implements System.Collections.IList.RemoveAt(System.Int32). Throws a System.NotSupportedException
+		///     in all cases.
 		/// </summary>
 		/// <exception cref="System.NotSupportedException">
 		///     In all cases.
