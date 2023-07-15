@@ -54,17 +54,22 @@ namespace CM3D2.Serialization
 		}
 
 		public T Deserialize<T>(Stream serializationStream)
-			where T : unmanaged
+			where T : struct
 		{
-			using (var reader = new CM3D2Reader(serializationStream))
-			{
-				//m_SerializationStream = serializationStream;
-				reader.Read(out T val);
-				return val;
-			}
+			Type type = typeof(T);
+			if (!typeof(ICM3D2Serializable).IsAssignableFrom(type) && !typeof(T).IsUnmanaged()) 
+				throw new ArgumentException($"The type {type.Name} must be an unmanaged struct, or implement {typeof(ICM3D2Serializable)}.");
+
+			return DeserializeUnmanaged<T>(serializationStream);
 		}
 
 		public T Deserialize<T>(Stream serializationStream, T obj = null)
+			where T : class
+		{
+			return DeserializeManaged<T>(serializationStream, obj);
+		}
+
+		private T DeserializeManaged<T>(Stream serializationStream, T obj = null)
 			where T : class
 		{
 			using (var reader = new CM3D2Reader(serializationStream))
@@ -99,6 +104,16 @@ namespace CM3D2.Serialization
 				{
 					throw new NotImplementedException();
 				}
+			}
+		}
+		
+		private T DeserializeUnmanaged<T>(Stream serializationStream)
+			where T : struct
+		{
+			using (var reader = new CM3D2Reader(serializationStream))
+			{
+				reader.Read(out T val);
+				return val;
 			}
 		}
 	}

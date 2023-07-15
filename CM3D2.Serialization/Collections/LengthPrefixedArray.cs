@@ -20,7 +20,29 @@ namespace CM3D2.Serialization.Collections
 			m_Array = new T[size];
 		}
 
+		public LengthPrefixedArray(IList<T> list)
+		{
+			m_Array = new T[list.Count];
+			list.CopyTo(m_Array, 0);
+		}
+
 		protected LengthPrefixedArray(T[] array)
+		{
+			m_Array = array;
+		}
+
+		/// <summary>
+		/// Avoid use execpt in performace critical scenarios.
+		/// </summary>
+		public void UnsafeSetArray(T[] array)
+		{
+			m_Array = array;
+		}
+
+		/// <summary>
+		/// Avoid use execpt in performace critical scenarios.
+		/// </summary>
+		public void UnsafeEnumerable(T[] array)
 		{
 			m_Array = array;
 		}

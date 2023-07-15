@@ -37,7 +37,7 @@ namespace CM3D2.Serialization
 		}
 
 		public void Write<T>(T val)
-			where T : unmanaged
+			where T : struct
 		{
 			if (val is ICM3D2Serializable serializable)
 			{
@@ -49,14 +49,19 @@ namespace CM3D2.Serialization
 				WriteBool(boolVal); // bools should only ever be 1 byte in length
 			}
 
-			else if (!typeof(T).IsBytesCastable())
-			{
-				throw new ArgumentException($"Cannot write struct {typeof(T).Name} with an invalid StructLayout");
-			}
-			
 			else if (val is byte b)
 			{
 				m_Stream.WriteByte(b);
+			}
+
+			else if (!typeof(T).IsUnmanaged())
+			{
+				throw new ArgumentException($"Cannot write struct {typeof(T).Name} because it is not an unmanaged type.");
+			}
+
+			else if (!typeof(T).IsBytesCastable())
+			{
+				throw new ArgumentException($"Cannot write struct {typeof(T).Name} with an invalid StructLayout");
 			}
 
 			else
@@ -67,7 +72,7 @@ namespace CM3D2.Serialization
 		}
 
 		public void Write<T>(T? val)
-			where T : unmanaged
+			where T : struct
 		{
 			if (val.HasValue)
 			{

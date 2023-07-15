@@ -30,7 +30,7 @@ namespace CM3D2.Serialization
 		/// <exception cref="ArgumentException">
 		///		If the type <typeparamref name="T"/> cannot be written.
 		///	</exception>
-		void Write<T>(T val) where T : unmanaged;
+		void Write<T>(T val) where T : struct;
 
 		/// <summary>
 		///		Writes a nullable primitive or unmanaged struct. 
@@ -44,7 +44,7 @@ namespace CM3D2.Serialization
 		/// <exception cref="ArgumentException">
 		///		If the type <typeparamref name="T"/> cannot be written.
 		///	</exception>
-		void Write<T>(T? val) where T : unmanaged;
+		void Write<T>(T? val) where T : struct;
 
 		void DebugLog(string note);
 	}

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CM3D2.Serialization", "CM3D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CM3D2.Serialization.Tests", "CM3D2.Serialization.Tests\CM3D2.Serialization.Tests.csproj", "{3A4C2284-D50C-4F0F-A6E3-9303B423595D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CM3D2.Serialization.Python", "CM3D2.Serialization.Python\CM3D2.Serialization.Python.csproj", "{F82F8EE9-A022-443E-B650-74CE0100FE17}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{3A4C2284-D50C-4F0F-A6E3-9303B423595D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A4C2284-D50C-4F0F-A6E3-9303B423595D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A4C2284-D50C-4F0F-A6E3-9303B423595D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F82F8EE9-A022-443E-B650-74CE0100FE17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F82F8EE9-A022-443E-B650-74CE0100FE17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F82F8EE9-A022-443E-B650-74CE0100FE17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F82F8EE9-A022-443E-B650-74CE0100FE17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

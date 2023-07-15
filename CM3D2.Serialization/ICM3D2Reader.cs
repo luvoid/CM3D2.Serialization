@@ -30,7 +30,7 @@ namespace CM3D2.Serialization
 		///		If the stream does not support seeking
 		///	</exception>
 		/// <exception cref="EndOfStreamException"></exception>
-		T Peek<T>() where T : unmanaged;
+		T Peek<T>() where T : struct;
 		string PeekString(Encoding encoding = null);
 
 		/// <summary>
@@ -53,7 +53,7 @@ namespace CM3D2.Serialization
 		///		If the type <typeparamref name="T"/> cannot be read.
 		///	</exception>
 		/// <exception cref="EndOfStreamException"></exception>
-		void Read<T>(out T val) where T : unmanaged;
+		void Read<T>(out T val) where T : struct;
 
 		/// <summary>
 		///		Reads a nullable primitive or unmanaged struct.
@@ -70,7 +70,7 @@ namespace CM3D2.Serialization
 		///		If the stream does not support seeking
 		///	</exception>
 		/// <exception cref="EndOfStreamException"></exception>
-		void Read<T>(out T? val) where T : unmanaged;
+		void Read<T>(out T? val) where T : struct;
 
 		/// <summary>
 		/// Reads a struct or class that implements the <see cref="ICM3D2Serializable"/> interface.

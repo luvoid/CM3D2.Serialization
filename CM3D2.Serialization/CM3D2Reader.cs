@@ -32,7 +32,7 @@ namespace CM3D2.Serialization
 		}
 
 		public T Peek<T>()
-			where T : unmanaged
+			where T : struct
 		{
 			AssertCanPeak();
 			long position = m_Stream.Position;
@@ -53,7 +53,6 @@ namespace CM3D2.Serialization
 		public void Read(out string str, Encoding encoding = null)
 		{
 			if (encoding == null) encoding = Encoding.UTF8;
-
 			Read(out Int7Bit32 size);
 			byte[] bytes = new byte[size];
 			m_Stream.Read(bytes, 0, bytes.Length);
@@ -61,7 +60,7 @@ namespace CM3D2.Serialization
 		}
 
 		public unsafe void Read<T>(out T val)
-			where T : unmanaged
+			where T : struct
 		{
 			Type type = typeof(T);
 
@@ -73,6 +72,11 @@ namespace CM3D2.Serialization
 			else if (type == typeof(bool))
 			{
 				val = (T)(object)ReadBool();
+			}
+
+			else if (!type.IsUnmanaged())
+			{
+				throw new ArgumentException($"Cannot read struct {type.Name} because it is not an unmanaged type.");
 			}
 
 			else if (!type.IsBytesCastable())
@@ -90,7 +94,7 @@ namespace CM3D2.Serialization
 		}
 
 		public void Read<T>(out T? val)
-			where T : unmanaged
+			where T : struct
 		{
 			if (PeekByte() > -1)
 			{

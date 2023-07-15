@@ -65,10 +65,12 @@
     <Compile Include="ICM3D2Serializable.cs" />
     <Compile Include="ICM3D2Writer.cs" />
     <Compile Include="ISummarizable.cs" />
+    <Compile Include="Performance\PerformanceExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Int7Bit32.cs" />
     <Compile Include="SerializableExtensions.cs" />
     <Compile Include="Structs\FloatN.cs" />
+    <Compile Include="UnmanagedTypeExtensions.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
