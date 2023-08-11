@@ -11,6 +11,7 @@ namespace CM3D2.Serialization
 	// For more information and original source, see the following answer.
 	// https://stackoverflow.com/a/53969182
 
+	[SerializableAttribute]
 	public static class UnmanagedTypeExtensions
 	{
 		// Reflection is SLOW, so cache results

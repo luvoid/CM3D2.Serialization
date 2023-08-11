@@ -9,6 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CM3D2.Serialization</RootNamespace>
     <AssemblyName>CM3D2.Serialization</AssemblyName>
+    <LangVersion>latest</LangVersion>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>false</Deterministic>
@@ -48,19 +49,39 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CM3D2.Serialization.SourceGenerators\CM3D2.Serialization.SourceGenerators.csproj">
+      <Project>{ef7ff2dd-974e-4a39-b66d-7fa9ab7cb3e8}</Project>
+      <Name>CM3D2.Serialization.SourceGenerators</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <OutputItemType>Analyzer</OutputItemType>
+      <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
+      <PrivateAssets>all</PrivateAssets>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AutoCM3D2SerializableAttribute.cs" />
     <Compile Include="CM3D2Serializer.cs" />
     <Compile Include="CM3D2Reader.cs" />
     <Compile Include="CM3D2Writer.cs" />
     <Compile Include="Collections\ArrayCollectionBase.cs" />
     <Compile Include="Collections\ArrayBase.cs" />
-    <Compile Include="Collections\ContinuousList.cs" />
-    <Compile Include="Collections\Generics\ArrayBaseT.cs" />
-    <Compile Include="Collections\Generics\HugeArrayT.cs" />
-    <Compile Include="Collections\Generics\IArrayT.cs" />
+    <Compile Include="Collections\Generic\ArrayBase.cs" />
+    <Compile Include="Collections\Generic\Array.cs" />
+    <Compile Include="Collections\Generic\HugeArray.cs" />
+    <Compile Include="Collections\Generic\IArray.cs" />
+    <Compile Include="Collections\Generic\UnmanagedArray.cs" />
     <Compile Include="Collections\IArray.cs" />
+    <Compile Include="Collections\LengthDefinedArray.cs" />
+    <Compile Include="Collections\LengthDefinedList.cs" />
     <Compile Include="Collections\LengthPrefixedArray.cs" />
+    <Compile Include="Collections\LengthPrefixedList.cs" />
+    <Compile Include="Collections\LengthPrefixedStringList.cs" />
     <Compile Include="Files\Anm.cs" />
     <Compile Include="Collections\IArrayCollection.cs" />
+    <Compile Include="Files\Mate.cs" />
+    <Compile Include="ICM3D2SerializableInstance.cs" />
+    <Compile Include="Types\Material.cs" />
+    <Compile Include="Files\Model.cs" />
     <Compile Include="ICM3D2Reader.cs" />
     <Compile Include="ICM3D2Serializable.cs" />
     <Compile Include="ICM3D2Writer.cs" />
@@ -70,8 +91,8 @@
     <Compile Include="Int7Bit32.cs" />
     <Compile Include="SerializableExtensions.cs" />
     <Compile Include="Structs\FloatN.cs" />
+    <Compile Include="Types\Morph.cs" />
     <Compile Include="UnmanagedTypeExtensions.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -78,6 +78,15 @@ namespace CM3D2.Serialization
 		/// <exception cref="EndOfStreamException"></exception>
 		void Read<T>(out T obj, object _ = null) where T : ICM3D2Serializable;
 
+
+		/// <summary>
+		/// Reads a struct or class that implements the <see cref="ICM3D2SerializableInstance"/> interface.
+		/// </summary>
+		/// <remarks>The <paramref name="obj"/> should never be null.</remarks>
+		/// <exception cref="EndOfStreamException"></exception>
+		/// <exception cref="ArgumentNullException"></exception>
+		public void Read<T>(ref T obj, object _ = null, object __ = null) where T : ICM3D2SerializableInstance;
+
 		void DebugLog(string note);
 	}
 }

@@ -8,9 +8,14 @@ namespace CM3D2.Serialization
 	{
 
 		/// <summary>
-		/// Reads a struct or class that implements the <see cref="ICM3D2Serializable"/> interface.
+		/// Writes a struct or class that implements the <see cref="ICM3D2Serializable"/> interface.
 		/// </summary>
 		void Write(ICM3D2Serializable obj);
+
+		/// <summary>
+		/// Writes a struct or class that implements the <see cref="ICM3D2SerializableInstance"/> interface.
+		/// </summary>
+		void Write(ICM3D2SerializableInstance obj);
 
 		/// <summary>
 		///		Writes a string.

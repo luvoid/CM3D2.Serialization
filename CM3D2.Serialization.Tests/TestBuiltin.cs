@@ -10,7 +10,7 @@ using System.Runtime.Serialization;
 namespace CM3D2.Serialization.Tests
 {
 	[TestClass]
-	public class TestBuiltin : CommonTest
+	public class TestBuiltin : CommonTests
 	{
 		[TestMethod]
 		public void TestSerializeBool()
@@ -71,6 +71,49 @@ namespace CM3D2.Serialization.Tests
 			Assert.AreEqual(expected, result);
 		}
 
+		[TestMethod]
+		public void TestSerializeUShort()
+		{
+			ushort expected = 12345;
+
+			m_Serializer.Serialize(m_Stream, expected);
+
+
+			m_Stream.Position = 0; // Reset stream position
+
+
+			byte[] bytes = ReadBytes();
+			Console.WriteLine(bytes.ToHexString());
+			int result = BitConverter.ToUInt16(bytes, 0);
+			Console.WriteLine(result);
+
+
+			Assert.AreEqual(expected, result);
+			Assert.AreEqual(bytes.Length, 2, "Not serialized as correct number of bytes");
+		}
+
+		[TestMethod]
+		public void TestDeserializeUShort()
+		{
+			ushort expected = 12345;
+
+			byte[] bytes = BitConverter.GetBytes(expected);
+			m_Stream.Write(bytes, 0, bytes.Length);
+
+			Console.WriteLine($"sizeof(ushort) = {sizeof(ushort)}");
+
+
+			m_Stream.Position = 0; // Reset stream position
+
+
+			int result = m_Serializer.Deserialize<ushort>(m_Stream);
+			Console.WriteLine(result);
+
+
+			Assert.AreEqual(expected, result);
+			Assert.AreEqual(bytes.Length, 2, "Not deserialized as correct number of bytes");
+		}
+
 
 		[TestMethod]
 		public void TestSerializeStruct()
@@ -124,6 +167,47 @@ namespace CM3D2.Serialization.Tests
 			Assert.AreEqual(expectedX, result.x);
 			Assert.AreEqual(expectedY, result.y);
 			Assert.AreEqual(expectedZ, result.z);
+		}
+
+
+		[TestMethod]
+		public void TestSerializeEnum()
+		{
+			ShortEnum expected = ShortEnum.Value256;
+
+			m_Serializer.Serialize(m_Stream, expected);
+
+
+			m_Stream.Position = 0; // Reset stream position
+
+
+			byte[] bytes = ReadBytes();
+			Console.WriteLine(bytes.ToHexString());
+			short result = BitConverter.ToInt16(bytes, 0);
+			Console.WriteLine(result);
+			
+
+			Assert.AreEqual(expected, (ShortEnum)result);
+		}
+
+
+
+		[TestMethod]
+		public void TestDeserializeEnum()
+		{
+			ShortEnum expected = ShortEnum.Value256;
+			short value = (short)expected;
+			m_Stream.WriteByte((byte)(value & 255));
+			m_Stream.WriteByte((byte)(value >> 8));
+
+
+			m_Stream.Position = 0; // Reset stream position
+
+
+			ShortEnum result = m_Serializer.Deserialize<ShortEnum>(m_Stream);
+
+
+			Assert.AreEqual(expected, result);
 		}
 
 

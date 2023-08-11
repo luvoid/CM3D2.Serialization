@@ -9,7 +9,7 @@ using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace CM3D2.Serialization.Collections.Generics
+namespace CM3D2.Serialization.Collections.Generic
 {
 	/// <summary>
 	/// Basis for creating a class that implements the <see cref="IArray{T}"/> interface.

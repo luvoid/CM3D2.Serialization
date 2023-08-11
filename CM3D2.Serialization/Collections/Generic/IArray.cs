@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CM3D2.Serialization.Collections.Generics
+namespace CM3D2.Serialization.Collections.Generic
 {
 	public interface IArray<T> : IArrayCollection, IEnumerable<T>
 	{

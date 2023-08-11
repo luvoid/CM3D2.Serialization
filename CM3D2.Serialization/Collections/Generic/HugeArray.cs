@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace CM3D2.Serialization.Collections.Generics
+namespace CM3D2.Serialization.Collections.Generic
 {
 	public class HugeArray<T> : ArrayBase<T>
 	{

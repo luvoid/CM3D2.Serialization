@@ -50,14 +50,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssertExtensions.cs" />
-    <Compile Include="CommonTest.cs" />
+    <Compile Include="CommonTests.cs" />
+    <Compile Include="DebugFileStream.cs" />
+    <Compile Include="DebugMemoryStream.cs" />
+    <Compile Include="ExampleEnum.cs" />
+    <Compile Include="FileTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestAnm.cs" />
     <Compile Include="TestBuiltin.cs" />
     <Compile Include="TestHugeArray.cs" />
+    <Compile Include="TestMate.cs" />
+    <Compile Include="TestModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\body001.model">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\dance_cm3d21_008_1oy_c01_02_f1.anm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\face002_skin.mate">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resources\maid_stand01.anm">

@@ -1,5 +1,5 @@
 ﻿using CM3D2.Serialization.Collections;
-using CM3D2.Serialization.Collections.Generics;
+using CM3D2.Serialization.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;

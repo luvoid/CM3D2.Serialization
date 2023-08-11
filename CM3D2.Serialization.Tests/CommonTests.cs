@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace CM3D2.Serialization.Tests
 {
-	public class CommonTest
+	public class CommonTests
 	{
-		protected MemoryStream m_Stream = new MemoryStream();
+		protected MemoryStream m_Stream = new DebugMemoryStream();
 		protected CM3D2Serializer m_Serializer = new CM3D2Serializer();
 
 		protected byte[] ReadBytes(int count = 4096, Stream stream = null)

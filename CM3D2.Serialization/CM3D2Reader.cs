@@ -55,7 +55,8 @@ namespace CM3D2.Serialization
 			if (encoding == null) encoding = Encoding.UTF8;
 			Read(out Int7Bit32 size);
 			byte[] bytes = new byte[size];
-			m_Stream.Read(bytes, 0, bytes.Length);
+			int read = m_Stream.Read(bytes, 0, bytes.Length);
+			if (read != bytes.Length) throw new EndOfStreamException();
 			str = encoding.GetString(bytes);
 		}
 
@@ -88,7 +89,8 @@ namespace CM3D2.Serialization
 			{
 				int size = sizeof(T);
 				byte[] bytes = new byte[size];
-				m_Stream.Read(bytes, 0, bytes.Length);
+				int read = m_Stream.Read(bytes, 0, bytes.Length);
+				if (read != bytes.Length) throw new EndOfStreamException();
 				val = FromBytes<T>(bytes);
 			}
 		}
@@ -113,9 +115,24 @@ namespace CM3D2.Serialization
 			obj = ReadInterface<T>();
 		}
 
+		public void Read<T>(ref T obj, object _ = null, object __ = null)
+			where T : ICM3D2SerializableInstance
+		{
+			if (obj == null) throw new ArgumentNullException($"A instance is required to read the type {typeof(T).Name}");
+			obj.ReadWith(this);
+		}
+
 		protected T ReadInterface<T>()
 		{
-			object obj = (T)FormatterServices.GetSafeUninitializedObject(typeof(T));
+			object obj;
+			try
+			{
+				obj = Activator.CreateInstance<T>();
+			}
+			catch (MissingMethodException)
+			{
+				obj = (T)FormatterServices.GetSafeUninitializedObject(typeof(T));
+			}
 			(obj as ICM3D2Serializable).ReadWith(this);
 			return (T)obj;
 		}
@@ -130,11 +147,23 @@ namespace CM3D2.Serialization
 		protected unsafe T FromBytes<T>(in byte[] bytes)
 			where T : struct
 		{
+			Type type = typeof(T);
+			Type marshalType;
+			if (type.IsEnum)
+			{
+				marshalType = Enum.GetUnderlyingType(type);
+			}
+			else
+			{
+				marshalType = type;
+			}
+
 			object obj;
 			fixed (byte* ptr = bytes)
 			{
-				obj = Marshal.PtrToStructure((IntPtr)ptr, typeof(T));
+				obj = Marshal.PtrToStructure((IntPtr)ptr, marshalType);
 			}
+
 			return (T)obj;
 		}
 

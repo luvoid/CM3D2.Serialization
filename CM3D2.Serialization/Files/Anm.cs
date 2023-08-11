@@ -15,36 +15,70 @@ namespace CM3D2.Serialization.Files
 {
 	public class Anm : ICM3D2Serializable, ISummarizable
 	{
+		public enum ChannelIdType : byte
+		{
+			None            =   0,
+			Track           =   1,
+
+			LocalRotationX  = 100,
+			LocalRotationY  = 101,
+			LocalRotationZ  = 102,
+			LocalRotationW  = 103,
+			LocalPositionX  = 104,
+			LocalPositionY  = 105,
+			LocalPositionZ  = 106,
+			MainTexX        = 107,
+			MainTexY        = 108,
+			MainTexZ        = 109,
+			MainTexW        = 110,
+			OutlineTexX     = 111,
+			OutlineTexY     = 112,
+			OutlineTexZ     = 113,
+			OutlineTexW     = 114,
+			ShadowTexX      = 115,
+			ShadowTexY      = 116,
+			ShadowTexZ      = 117,
+			ShadowTexW      = 118,
+			UVOffsetX       = 119,
+			UVOffsetY       = 120,
+
+			ExLocalScaleX   = 200,
+			ExLocalScaleY   = 201,
+			ExLocalScaleZ   = 202,
+			ExBlendValue    = 203
+		}
+
 		public readonly string signature = "CM3D2_ANIM";
 		public int version = 1000;
-		public List<Track> tracks = new List<Track>(); // Uses unique list serialization
+		public List<Track> tracks = new(); // Uses unique list serialization
 
 		public class Track
 		{
 			/// <summary>
 			/// Tracks always have a channel id of 1 (because they are tracks and not channels)
 			/// </summary>
-			public readonly byte channelId = 1;
+			public readonly ChannelIdType channelId = ChannelIdType.Track;
 			public string path;
-			public List<Channel> channels = new List<Channel>(); // Uses unique list serialization
+			public List<Channel> channels = new(); // Uses unique list serialization
+		}
 
-			public class Channel
-			{
-				/// <summary>
-				/// Must be greater than 1
-				/// </summary>
-				public byte channelId = 2;
-				public LengthPrefixedArray<Keyframe> keyframes = new LengthPrefixedArray<Keyframe>(0);
+		public class Channel
+		{
+			/// <summary>
+			/// Must be greater than 1
+			/// </summary>
+			public ChannelIdType channelId = ChannelIdType.LocalRotationX;
+			public LengthPrefixedArray<Keyframe> keyframes = new();
 
-				[StructLayout(LayoutKind.Sequential, Pack = 1)]
-				public struct Keyframe
-				{
-					public float time;
-					public float value;
-					public float tanIn;
-					public float tanOut;
-				}
-			}
+		}
+
+		[StructLayout(LayoutKind.Sequential, Pack = 1)]
+		public struct Keyframe
+		{
+			public float time;
+			public float value;
+			public float inTangent;
+			public float outTangent;
 		}
 
 		/// <summary>
@@ -62,7 +96,6 @@ namespace CM3D2.Serialization.Files
 			public bool right;
 		}
 
-
 		void ICM3D2Serializable.WriteWith(ICM3D2Writer writer)
 		{
 			writer.Write(signature);
@@ -73,7 +106,7 @@ namespace CM3D2.Serialization.Files
 				writer.Write(track.path);
 				foreach (var channel in track.channels)
 				{
-					if (channel.channelId <= 1)
+					if (channel.channelId <= ChannelIdType.Track)
 					{
 						throw new ArgumentOutOfRangeException(nameof(channel.channelId), "Channel.channelId must be a value greater than 1");
 					}
@@ -82,27 +115,27 @@ namespace CM3D2.Serialization.Files
 				}
 			}
 
-			writer.Write((byte)0);
+			writer.Write(ChannelIdType.None);
 			writer.Write(useMuneKey);
 		}
 
 		void ICM3D2Serializable.ReadWith(ICM3D2Reader reader)
 		{
-			reader.Read(out string readSignature);
-			if (readSignature != signature) throw new FormatException($"Expected signature \"{signature}\" but instead found \"{readSignature}\"");
+			reader.Read(out string foundSignature);
+			if (foundSignature != signature) throw new FormatException($"Expected signature \"{signature}\" but instead found \"{foundSignature}\"");
 			
 			reader.Read(out version);
 
-			while (reader.Peek<byte>() == 1)
+			while (reader.Peek<ChannelIdType>() == ChannelIdType.Track)
 			{
 				Track track = new Track();
 				tracks.Add(track);
 				reader.Read(out byte _); // track.channelId
 				reader.Read(out track.path);
 
-				while (reader.Peek<byte>() > 1)
+				while (reader.Peek<ChannelIdType>() > ChannelIdType.Track)
 				{
-					Track.Channel channel = new Track.Channel();
+					Channel channel = new Channel();
 					track.channels.Add(channel);
 					reader.Read(out channel.channelId);
 					reader.Read(out channel.keyframes);
@@ -123,7 +156,7 @@ namespace CM3D2.Serialization.Files
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 
-			stringBuilder.Append($"Anm {{ {signature} v{version} Track[{tracks.Count}]");
+			stringBuilder.Append($"{{ {signature} v{version} Track[{tracks.Count}]");
 			if (tracks.Count > 0)
 			{
 				stringBuilder.Append($" {{Channel[{tracks[0].channels.Count}]");

@@ -28,8 +28,14 @@ namespace CM3D2.Serialization
 			obj.WriteWith(this);
 		}
 
+		public void Write(ICM3D2SerializableInstance obj)
+		{
+			obj.WriteWith(this);
+		}
+
 		public void Write(string str, Encoding encoding = null)
 		{
+			str ??= "";
 			if (encoding == null) encoding = Encoding.UTF8;
 			byte[] bytes = encoding.GetBytes(str);
 			Write((Int7Bit32)bytes.Length);
@@ -80,16 +86,23 @@ namespace CM3D2.Serialization
 			}
 		}
 
-			protected void WriteBool(bool val)
+		protected void WriteBool(bool val)
 		{
 			m_Stream.WriteByte(!val ? (byte)0 : (byte)1); // bools should only ever be 1 byte in length
 		}
 
-		protected unsafe virtual byte[] ToBytes(in object structure)
+		protected unsafe virtual byte[] ToBytes<T>(in T value)
+			where T : struct
 		{
-			Type type = structure.GetType();
-			int size = Marshal.SizeOf(type);
-
+			Type type = typeof(T);
+			int size = sizeof(T);
+			object structure = value;
+			if (type.IsEnum)
+			{
+				Type underlyingType = Enum.GetUnderlyingType(type);
+				structure = Convert.ChangeType(value, underlyingType);
+			}
+			
 			byte[] bytes = new byte[size];
 			fixed (byte* ptr = bytes)
 			{
