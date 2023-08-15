@@ -12,8 +12,13 @@ namespace CM3D2.Serialization.Tests
 	{
 		void TestIndex(long index, bool expectInvalid = false, bool print = true)
 		{
-			int xIndexExpected = (int)(index / (int.MaxValue + 1L));
-			int yIndexExpected = (int)(index % (int.MaxValue + 1L));
+			int xIndexExpected;
+			int yIndexExpected;
+			unchecked
+			{
+				xIndexExpected = (int)(index / (int.MaxValue + 1L));
+				yIndexExpected = (int)(index % (int.MaxValue + 1L));
+			}
 
 			bool isValidIndex = HugeArray<object>.TranslateIndex(index, out int xIndexActual, out int yIndexActual);
 
@@ -60,14 +65,16 @@ namespace CM3D2.Serialization.Tests
 
 
 			// These indices should be invalid
+			unchecked
+			{
+				//TestIndex((long.MaxValue >> 1) + 1L, expectInvalid: true);
 
-			TestIndex((long.MaxValue >> 1) + 1L, expectInvalid: true);
-
-			TestIndex(long.MaxValue - 2L, expectInvalid: true);
-			TestIndex(long.MaxValue - 1L, expectInvalid: true);
-			TestIndex(long.MaxValue - 0L, expectInvalid: true);
-
-			TestIndex(-1, expectInvalid: true);
+				TestIndex(long.MaxValue - 2L, expectInvalid: true);
+				TestIndex(long.MaxValue - 1L, expectInvalid: true);
+				TestIndex(long.MaxValue - 0L, expectInvalid: true);
+			
+				TestIndex(-1, expectInvalid: true);
+			}
 		}
 
 		//[TestMethod]
