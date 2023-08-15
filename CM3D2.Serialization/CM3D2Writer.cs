@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Xml.Serialization;
 
 namespace CM3D2.Serialization
 {
@@ -80,10 +76,7 @@ namespace CM3D2.Serialization
 		public void Write<T>(T? val)
 			where T : struct
 		{
-			if (val.HasValue)
-			{
-				Write(val.Value);
-			}
+			Write(val.Value);
 		}
 
 		protected void WriteBool(bool val)

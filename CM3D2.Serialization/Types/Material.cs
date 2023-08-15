@@ -1,11 +1,6 @@
 ﻿using CM3D2.Serialization.Structs;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 
 namespace CM3D2.Serialization.Files
@@ -93,11 +88,11 @@ namespace CM3D2.Serialization.Files
 				writer.Write(subtag);
 				if (subtag == Tex2DSubProperty.Subtype)
 				{
-					writer.Write(tex2d.Value);
+					writer.Write(tex2d);
 				}
 				else if (subtag == TexRTSubProperty.Subtype)
 				{
-					writer.Write(texRT.Value);
+					writer.Write(texRT);
 				}
 			}
 		}

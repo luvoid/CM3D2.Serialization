@@ -56,18 +56,15 @@ namespace CM3D2.Serialization
 		void Read<T>(out T val) where T : struct;
 
 		/// <summary>
-		///		Reads a nullable primitive or unmanaged struct.
-		///		<paramref name="val"/> is set to null if at end-of-stream.
+		///		Reads a primitive or unmanaged struct.
 		/// </summary>
 		/// <remarks>
-		///		If more bytes are in the stream, but not enough for the whole struct,
-		///		an <see cref="EndOfStreamException"/> will still be raised.
+		///		This method will always attempt to read a value.
+		///		See <see cref="Omittable{T}"/> or <see cref="BoolPrefixedNullable{T}"/>
+		///		if special handling of nullable-like values is desired.
 		/// </remarks>
 		/// <exception cref="ArgumentException">
 		///		If the type <typeparamref name="T"/> cannot be read.
-		///	</exception>
-		/// <exception cref="InvalidOperationException">
-		///		If the stream does not support seeking
 		///	</exception>
 		/// <exception cref="EndOfStreamException"></exception>
 		void Read<T>(out T? val) where T : struct;
@@ -77,7 +74,6 @@ namespace CM3D2.Serialization
 		/// </summary>
 		/// <exception cref="EndOfStreamException"></exception>
 		void Read<T>(out T obj, object _ = null) where T : ICM3D2Serializable;
-
 
 		/// <summary>
 		/// Reads a struct or class that implements the <see cref="ICM3D2SerializableInstance"/> interface.

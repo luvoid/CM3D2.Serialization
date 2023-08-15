@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Runtime.Remoting.Messaging;
 using System.Text;
-using System.Xml.Linq;
 using CM3D2.Serialization.Collections;
 using CM3D2.Serialization.Structs;
 using CM3D2.Serialization.Types;
-using static CM3D2.Serialization.Files.Model;
 
 namespace CM3D2.Serialization.Files
 {
@@ -49,10 +45,9 @@ namespace CM3D2.Serialization.Files
 			public Float3 localPosition;
 			public Float4 localRotation;
 
-			/// <summary>
-			/// Only in versions >= 2001
-			/// </summary>
-			public Float3? localScale;
+			/// <summary> Only present in version >= 2001 </summary>
+			/// <remarks> In versions before 2001, not even the prefixed bool is present. <remarks>
+			public BoolPrefixedNullable<Float3> localScale;
 		}
 
 		public int vertexCount;
@@ -236,8 +231,6 @@ namespace CM3D2.Serialization.Files
 				writer.Write(localTransform.localRotation);
 				if (version >= 2001)
 				{
-					if (!localTransform.localScale.HasValue) throw new InvalidOperationException(
-						$"{nameof(childLocalTransforms)}[].{nameof(localTransform.localScale)} must have a value when {nameof(version)} >= 2001");
 					writer.Write(localTransform.localScale);
 				}
 			}

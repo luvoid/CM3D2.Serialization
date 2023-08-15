@@ -6,7 +6,6 @@ namespace CM3D2.Serialization
 {
 	public interface ICM3D2Writer : IDisposable
 	{
-
 		/// <summary>
 		/// Writes a struct or class that implements the <see cref="ICM3D2Serializable"/> interface.
 		/// </summary>
@@ -38,16 +37,18 @@ namespace CM3D2.Serialization
 		void Write<T>(T val) where T : struct;
 
 		/// <summary>
-		///		Writes a nullable primitive or unmanaged struct. 
-		///		Nothing will be written if the value does not exist.
+		///		Writes a primitive or unmanaged struct.
 		/// </summary>
 		/// <remarks>
-		///		This method does not write anything that indicates if the
-		///		value is there or not. Unless it is at the end of the stream,
-		///		make sure there is some sort of external indicator.
+		///		This method will always attempt to write a value.
+		///		See <see cref="Omittable{T}"/> or <see cref="BoolPrefixedNullable{T}"/>
+		///		if special handling of nullable-like values is desired.
 		/// </remarks>
 		/// <exception cref="ArgumentException">
 		///		If the type <typeparamref name="T"/> cannot be written.
+		///	</exception>
+		/// <exception cref="InvalidOperationException">
+		///		If <paramref name="val"/> has no value.
 		///	</exception>
 		void Write<T>(T? val) where T : struct;
 

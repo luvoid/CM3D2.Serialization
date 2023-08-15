@@ -1,14 +1,8 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Runtime.Remoting.Messaging;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-using System.Xml.Serialization;
 using CM3D2.Serialization.Collections;
 
 namespace CM3D2.Serialization.Files
@@ -81,10 +75,7 @@ namespace CM3D2.Serialization.Files
 			public float outTangent;
 		}
 
-		/// <summary>
-		/// If <see cref="useMuneKey"/> has no value, then the bytes are not written or read.
-		/// </summary>
-		public MuneKeyUsage? useMuneKey;
+		public Omittable<MuneKeyUsage> useMuneKey;
 
 		[StructLayout(LayoutKind.Sequential, Pack = 1)]
 		public struct MuneKeyUsage

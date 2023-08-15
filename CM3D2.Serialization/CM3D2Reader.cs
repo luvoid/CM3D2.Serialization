@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
@@ -98,15 +97,8 @@ namespace CM3D2.Serialization
 		public void Read<T>(out T? val)
 			where T : struct
 		{
-			if (PeekByte() > -1)
-			{
-				Read(out T v);
-				val = v;
-			}
-			else
-			{
-				val = null;
-			}
+			Read(out T readVal);
+			val = readVal;
 		}
 
 		public void Read<T>(out T obj, object _ = null)
