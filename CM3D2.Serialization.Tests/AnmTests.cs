@@ -7,7 +7,7 @@ namespace CM3D2.Serialization.Tests
 {
 
 	[TestClass]
-	public class TestAnm : FileTests<Anm>
+	public class AnmTests : FileTests<Anm>
 	{
 		protected override Anm CreateExample()
 		{

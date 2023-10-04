@@ -1,12 +1,11 @@
-﻿using CM3D2.Serialization.Structs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CM3D2.Serialization.Files
+namespace CM3D2.Serialization.Types
 {
-	// ImportCM.ReadMaterial
-	public partial class Material : ICM3D2Serializable, ISummarizable
+    // ImportCM.ReadMaterial
+    public partial class Material : ICM3D2Serializable, ISummarizable
 	{
 		public string name;
 		public string shaderName;

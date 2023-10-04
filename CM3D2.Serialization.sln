@@ -5,11 +5,19 @@ VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CM3D2.Serialization", "CM3D2.Serialization\CM3D2.Serialization.csproj", "{59786FC6-0C86-495E-AB89-7CFABCC966E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CM3D2.Serialization.Tests", "CM3D2.Serialization.Tests\CM3D2.Serialization.Tests.csproj", "{3A4C2284-D50C-4F0F-A6E3-9303B423595D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CM3D2.Serialization.Tests", "CM3D2.Serialization.Tests\CM3D2.Serialization.Tests.csproj", "{3A4C2284-D50C-4F0F-A6E3-9303B423595D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CM3D2.Serialization.Python", "CM3D2.Serialization.Python\CM3D2.Serialization.Python.csproj", "{F82F8EE9-A022-443E-B650-74CE0100FE17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CM3D2.Serialization.Python", "CM3D2.Serialization.Python\CM3D2.Serialization.Python.csproj", "{F82F8EE9-A022-443E-B650-74CE0100FE17}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CM3D2.Serialization.SourceGenerators", "CM3D2.Serialization.SourceGenerators\CM3D2.Serialization.SourceGenerators.csproj", "{EF7FF2DD-974E-4A39-B66D-7FA9AB7CB3E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7BA47001-7F8D-4348-BA60-B573B2236D4A}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CM3D2.Serialization.SourceGenerators.Tests", "CM3D2.Serialization.SourceGenerators.Tests\CM3D2.Serialization.SourceGenerators.Tests.csproj", "{0AC7B424-8419-40F7-B72D-B5FFBBDB429F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +41,10 @@ Global
 		{EF7FF2DD-974E-4A39-B66D-7FA9AB7CB3E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF7FF2DD-974E-4A39-B66D-7FA9AB7CB3E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF7FF2DD-974E-4A39-B66D-7FA9AB7CB3E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AC7B424-8419-40F7-B72D-B5FFBBDB429F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AC7B424-8419-40F7-B72D-B5FFBBDB429F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AC7B424-8419-40F7-B72D-B5FFBBDB429F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AC7B424-8419-40F7-B72D-B5FFBBDB429F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

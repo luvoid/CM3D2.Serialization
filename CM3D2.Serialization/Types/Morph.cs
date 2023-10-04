@@ -1,5 +1,4 @@
 ﻿using CM3D2.Serialization.Collections;
-using CM3D2.Serialization.Structs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,7 @@ using System.Text;
 
 namespace CM3D2.Serialization.Types
 {
-	[AutoCM3D2Serializable]
+    [AutoCM3D2Serializable]
 	public partial class Morph : ICM3D2Serializable
 	{
 		public string name;

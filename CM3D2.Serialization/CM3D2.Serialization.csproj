@@ -11,12 +11,17 @@
     <Deterministic>false</Deterministic>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Configurations>Debug;Release;Debug_UnityEditor</Configurations>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>False</Optimize>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="4.7.0-2.final">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="UnityEngine" Version="5.6.1" PrivateAssets="all" ExcludeAssets="runtime"/>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CM3D2.Serialization.SourceGenerators\CM3D2.Serialization.SourceGenerators.csproj">

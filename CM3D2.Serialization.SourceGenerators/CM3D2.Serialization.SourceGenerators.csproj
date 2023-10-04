@@ -7,11 +7,13 @@
     <FileVersion>0.1</FileVersion>
     <AssemblyVersion>$(FileVersion).*</AssemblyVersion>
     <Deterministic>false</Deterministic>
+    <LangVersion>10.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Hafner.Compatibility.NullableReferenceTypeAttributes" Version="1.0.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.5.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="all" />
   </ItemGroup>
-
+  
 </Project>

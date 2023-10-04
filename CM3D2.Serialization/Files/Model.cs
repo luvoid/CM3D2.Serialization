@@ -3,16 +3,21 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 using CM3D2.Serialization.Collections;
-using CM3D2.Serialization.Structs;
 using CM3D2.Serialization.Types;
 
 namespace CM3D2.Serialization.Files
 {
-	// ImportCM.LoadSkinMesh_R
-	public partial class Model : ICM3D2Serializable, ISummarizable
+    // ImportCM.LoadSkinMesh_R
+
+    /// <remarks>
+    ///	If <c>2100 &lt; version &lt; 2200</c>, COM3D2.5 will throw an error if the
+    ///	filename does not start with "crc_", "crx_", or "gp03_".
+    /// </remarks>
+    public partial class Model : ICM3D2Serializable, ISummarizable
 	{
 		public readonly string signature = "CM3D2_MESH";
-		public int version = 1000;
+
+		public int version = (int)FileVersions.CM3D2;
 
 		/// <summary>
 		/// The name of the model.
@@ -25,7 +30,17 @@ namespace CM3D2.Serialization.Files
 		/// </summary>
 		public string meshObjectName;
 
-		public LengthPrefixedList<ChildName> childNames = new();
+		public int childCount;
+
+		/// <summary>
+		/// Minimum File Version: 2104 <br/>
+		/// Maximum File Version: 2200 (exclusive)
+		/// </summary>
+		[FileVersionConstraint(2104, 2200)]
+		public string shadowCastingMode;
+
+		[LengthDefinedBy(nameof(childCount))]
+		public LengthDefinedList<ChildName> childNames = new();
 
 		[AutoCM3D2Serializable]
 		public partial struct ChildName : ICM3D2Serializable
@@ -34,10 +49,10 @@ namespace CM3D2.Serialization.Files
 			public bool isSclBone;
 		}
 
-		/// <remarks> Length defined by childNames.Count </remarks>
+		[LengthDefinedBy(nameof(childCount))]
 		public LengthDefinedArray<int> childParents = new();
 
-		/// <remarks> Length defined by childNames.Count </remarks>
+		[LengthDefinedBy(nameof(childCount))]
 		public List<LocalTransform> childLocalTransforms = new();
 
 		public struct LocalTransform
@@ -45,19 +60,22 @@ namespace CM3D2.Serialization.Files
 			public Float3 localPosition;
 			public Float4 localRotation;
 
-			/// <summary> Only present in version >= 2001 </summary>
-			/// <remarks> In versions before 2001, not even the prefixed bool is present. <remarks>
+			/// <summary> Minimum File Version: 2001 </summary>
+			[FileVersionConstraint(FileVersions.COM3D2_1)]
 			public BoolPrefixedNullable<Float3> localScale;
 		}
 
 		public int vertexCount;
 		public int submeshCount;
-		public LengthPrefixedStringList boneUseNames = new();
+		public int bindPoseCount;
 
-		/// <remarks> Length defined by boneUseNames.Count </remarks>
+		[LengthDefinedBy(nameof(bindPoseCount))]
+		public LengthDefinedStringList boneUseNames = new();
+
+		[LengthDefinedBy(nameof(bindPoseCount))]
 		public LengthDefinedArray<Float4x4> bindPoses = new();
 
-		/// <remarks> Length defined by vertexCount </remarks>
+		[LengthDefinedBy(nameof(vertexCount))]
 		public LengthDefinedArray<Vertex> vertices = new();
 
 		public struct Vertex
@@ -69,7 +87,7 @@ namespace CM3D2.Serialization.Files
 
 		public LengthPrefixedArray<Float4> tangents = new();
 
-		/// <remarks> Length defined by vertexCount </remarks>
+		[LengthDefinedBy(nameof(vertexCount))]
 		public LengthDefinedArray<BoneWeight> boneWeights = new();
 
 		[StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -87,7 +105,7 @@ namespace CM3D2.Serialization.Files
 
 		// ImportCM.cs:255
 
-		/// <remarks> Length defined by submeshCount </remarks>
+		[LengthDefinedBy(nameof(submeshCount))]
 		public LengthDefinedList<LengthPrefixedArray<ushort>> submeshTriangles = new();
 
 		public LengthPrefixedList<Material> materials = new();
@@ -140,10 +158,11 @@ namespace CM3D2.Serialization.Files
 			reader.Read(out meshObjectName);
 
 			reader.DebugLog("childNames");
-			reader.Read(out childNames);
+			childNames.SetLength(childCount);
+			reader.Read(ref childNames);
 
 			reader.DebugLog("childParents");
-			childParents.SetLength(childNames.Count);
+			childParents.SetLength(childCount);
 			reader.Read(ref childParents);
 
 			reader.DebugLog("childLocalTransforms");
@@ -154,7 +173,7 @@ namespace CM3D2.Serialization.Files
 				LocalTransform localTransform = default;
 				reader.Read(out localTransform.localPosition);
 				reader.Read(out localTransform.localRotation);
-				if (version >= 2001)
+				if (version >= (int)FileVersions.COM3D2_1)
 				{
 					reader.Read(out localTransform.localScale);
 				}
@@ -168,10 +187,11 @@ namespace CM3D2.Serialization.Files
 			reader.Read(out submeshCount);
 
 			reader.DebugLog("vertexGroupNames");
-			reader.Read(out boneUseNames);
+			boneUseNames.SetLength(bindPoseCount);
+			reader.Read(ref boneUseNames);
 
 			reader.DebugLog("bindPoses");
-			bindPoses.SetLength(boneUseNames.Count);
+			bindPoses.SetLength(bindPoseCount);
 			reader.Read(ref bindPoses);
 
 			reader.DebugLog("vertices");
@@ -218,9 +238,11 @@ namespace CM3D2.Serialization.Files
 			writer.Write(version);
 			writer.Write(modelName);
 			writer.Write(meshObjectName);
+
+			childNames.ValidateLength(childCount, nameof(childNames), nameof(childCount));
 			writer.Write(childNames);
 
-			childParents.ValidateLength(childNames.Count, $"{nameof(childNames)}.{nameof(childNames.Count)}");
+			childParents.ValidateLength(childCount, nameof(childParents), nameof(childCount));
 			writer.Write(childParents);
 
 			if (childLocalTransforms.Count != childNames.Count) throw new InvalidOperationException(
@@ -229,7 +251,7 @@ namespace CM3D2.Serialization.Files
 			{
 				writer.Write(localTransform.localPosition);
 				writer.Write(localTransform.localRotation);
-				if (version >= 2001)
+				if (version >= (int)FileVersions.COM3D2_1)
 				{
 					writer.Write(localTransform.localScale);
 				}
@@ -241,9 +263,10 @@ namespace CM3D2.Serialization.Files
 			submeshCount = submeshTriangles.Count;
 			writer.Write(submeshCount);
 
+			boneUseNames.ValidateLength(bindPoseCount, nameof(bindPoses), nameof(bindPoseCount));
 			writer.Write(boneUseNames);
 
-			bindPoses.ValidateLength(boneUseNames.Count, nameof(bindPoses), $"{nameof(boneUseNames)}.{nameof(boneUseNames.Count)}");
+			bindPoses.ValidateLength(bindPoseCount, nameof(bindPoses), nameof(bindPoseCount));
 			writer.Write(bindPoses);
 
 			vertices.ValidateLength(vertexCount);

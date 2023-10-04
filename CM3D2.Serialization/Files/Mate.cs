@@ -8,7 +8,7 @@ namespace CM3D2.Serialization.Files
 	public class Mate : ICM3D2Serializable, ISummarizable
 	{
 		public readonly string signature = "CM3D2_MATERIAL";
-		public int version = 1000;
+		public int version = (int)FileVersions.CM3D2;
 		public string name = "";
 		public Material material = new();
 

@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 using CM3D2.Serialization.Collections;
+using CM3D2.Serialization.Types;
 
 namespace CM3D2.Serialization.Files
 {
-	public class Anm : ICM3D2Serializable, ISummarizable
+    public class Anm : ICM3D2Serializable, ISummarizable
 	{
 		public enum ChannelIdType : byte
 		{
@@ -43,7 +44,7 @@ namespace CM3D2.Serialization.Files
 		}
 
 		public readonly string signature = "CM3D2_ANIM";
-		public int version = 1000;
+		public int version = (int)FileVersions.CM3D2;
 		public List<Track> tracks = new(); // Uses unique list serialization
 
 		public class Track

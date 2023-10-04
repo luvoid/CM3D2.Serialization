@@ -1,5 +1,5 @@
 ﻿using CM3D2.Serialization.Files;
-using CM3D2.Serialization.Structs;
+using CM3D2.Serialization.Types;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Diagnostics;
@@ -9,8 +9,8 @@ using System.Runtime.Serialization;
 
 namespace CM3D2.Serialization.Tests
 {
-	[TestClass]
-	public class TestBuiltin : CommonTests
+    [TestClass]
+	public class BuiltinTests : CommonTests
 	{
 		[TestMethod]
 		public void TestSerializeBool()

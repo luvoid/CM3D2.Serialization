@@ -1,4 +1,5 @@
 ﻿using CM3D2.Serialization.Files;
+using CM3D2.Serialization.Types;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace CM3D2.Serialization.Tests
 {
 	[TestClass]
-	public class TestMate : FileTests<Mate>
+	public class MateTests : FileTests<Mate>
 	{
 		protected override Mate CreateExample()
 		{

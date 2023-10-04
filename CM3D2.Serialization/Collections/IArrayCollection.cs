@@ -8,7 +8,7 @@ namespace CM3D2.Serialization.Collections
 	public interface IArrayCollection : ICloneable, ICollection
 	{
 		[EditorBrowsable(EditorBrowsableState.Never), Obsolete("Use IArrayCollection.Length instead")]
-		int Count { get; }
+		new int Count { get; }
 
 		/// <summary>
 		///     Gets a value indicating whether the System.Collections.IList is read-only.

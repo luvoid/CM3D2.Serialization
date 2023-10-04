@@ -3,11 +3,11 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Text;
-
+using CM3D2.Serialization.Types;
 
 namespace CM3D2.Serialization
 {
-	internal class CM3D2Reader : ICM3D2Reader
+    internal class CM3D2Reader : ICM3D2Reader
 	{
 		Stream m_Stream;
 

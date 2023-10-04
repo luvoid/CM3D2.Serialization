@@ -1,0 +1,18 @@
+﻿[*.cs]
+
+# IDE1006: Naming Styles
+dotnet_diagnostic.IDE1006.severity = silent
+
+
+
+# CM3D2Serialization021: Missing LengthDefinedBy Attribute
+dotnet_diagnostic.CM3D2Serialization021.severity = warning
+
+# CM3D2Serialization022: Invalid LengthDefinedBy Attribute
+dotnet_diagnostic.CM3D2Serialization022.severity = error
+
+# CM3D2Serialization023: Wrong Length Set
+dotnet_diagnostic.CM3D2Serialization023.severity = error
+
+# CM3D2Serialization024: Wrong Length Validated
+dotnet_diagnostic.CM3D2Serialization024.severity = error

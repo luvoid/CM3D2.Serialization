@@ -2,10 +2,11 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using CM3D2.Serialization.Types;
 
 namespace CM3D2.Serialization
 {
-	internal class CM3D2Writer : ICM3D2Writer
+    internal class CM3D2Writer : ICM3D2Writer
 	{
 		Stream m_Stream;
 		

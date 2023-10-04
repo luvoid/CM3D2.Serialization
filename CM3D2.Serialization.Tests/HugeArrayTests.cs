@@ -8,7 +8,7 @@ using System.IO;
 namespace CM3D2.Serialization.Tests
 {
 	[TestClass]
-	public class TestHugeArray
+	public class HugeArrayTests
 	{
 		void TestIndex(long index, bool expectInvalid = false, bool print = true)
 		{

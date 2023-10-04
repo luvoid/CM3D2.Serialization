@@ -1,10 +1,11 @@
 ﻿using CM3D2.Serialization.Files;
+using CM3D2.Serialization.Types;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CM3D2.Serialization.Tests
 {
 	[TestClass]
-	public class TestModel : FileTests<Model>
+	public class ModelTests : FileTests<Model>
 	{
 		protected override Model CreateExample()
 		{
