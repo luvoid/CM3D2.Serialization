@@ -168,7 +168,7 @@ namespace CM3D2.Serialization.Types
 					reader.Read(out TexProperty newProp);
 					prop = newProp;
 				}
-#pragma warning disable CM3D2Serialization021 // Field Read / Write out of Order
+#pragma warning disable CM3D2Serialization031 // Field Read / Write out of Order
 				else if (propType == ColProperty.Type)
 				{
 					reader.Read(out ColProperty newProp);
@@ -184,7 +184,7 @@ namespace CM3D2.Serialization.Types
 					reader.Read(out FProperty newProp);
 					prop = newProp;
 				}
-#pragma warning restore CM3D2Serialization021 // Field Read / Write out of Order
+#pragma warning restore CM3D2Serialization031 // Field Read / Write out of Order
 				else if (propType == "end")
 				{
 					break;

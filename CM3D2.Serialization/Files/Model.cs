@@ -236,9 +236,9 @@ namespace CM3D2.Serialization.Files
 				}
 				else
 				{
-#pragma warning disable CM3D2Serialization021 // Field Read / Write out of Order
+#pragma warning disable CM3D2Serialization031 // Field Read / Write out of Order
 					reader.Read(out EmptyBlock emptyBlock);
-#pragma warning restore CM3D2Serialization021 // Field Read / Write out of Order
+#pragma warning restore CM3D2Serialization031 // Field Read / Write out of Order
 					block = emptyBlock;
 				}
 				blocks.Add(block);
