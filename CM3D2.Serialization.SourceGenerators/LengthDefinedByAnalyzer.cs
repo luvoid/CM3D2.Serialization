@@ -19,7 +19,7 @@ namespace CM3D2.Serialization.SourceGenerators
 		const string k_Category = "CM3D2.Serialization.LengthDefinedBy";
 
 		private static readonly DiagnosticDescriptor MissingLengthDefinedByAttributeRule = new(
-			id: "CM3D2Serialization021",
+			id: "CM3D2Serialization050",
 			title: "Missing LengthDefinedBy Attribute",
 			messageFormat: "Add the 'LengthDefinedBy' attribute to the field",
 			category: k_Category,
@@ -28,7 +28,7 @@ namespace CM3D2.Serialization.SourceGenerators
 		);
 
 		private static readonly DiagnosticDescriptor InvalidLengthDefinedByRule = new(
-			id: "CM3D2Serialization022",
+			id: "CM3D2Serialization051",
 			title: "Invalid LengthDefinedBy Attribute",
 			messageFormat: "Invalid length definition ({0})",
 			category: k_Category,
@@ -37,7 +37,7 @@ namespace CM3D2.Serialization.SourceGenerators
 		);
 
 		private static readonly DiagnosticDescriptor WrongLengthSetRule = new(
-			id: "CM3D2Serialization023",
+			id: "CM3D2Serialization052",
 			title: "Wrong Length Set",
 			messageFormat: "The wrong field or propertry was used to set the length of '{0}' (expected '{1}', got '{2}')",
 			category: k_Category,
@@ -46,7 +46,7 @@ namespace CM3D2.Serialization.SourceGenerators
 		);
 
 		private static readonly DiagnosticDescriptor WrongLengthValidatedRule = new(
-			id: "CM3D2Serialization024",
+			id: "CM3D2Serialization053",
 			title: "Wrong Length Validated",
 			messageFormat: "The wrong field or propertry was used to validate the length of '{0}' (expected '{1}', got '{2}')",
 			category: k_Category,
@@ -55,7 +55,7 @@ namespace CM3D2.Serialization.SourceGenerators
 		);
 
 		private static readonly DiagnosticDescriptor LengthNotSetRule = new(
-			id: "CM3D2Serialization025",
+			id: "CM3D2Serialization054",
 			title: "Length Not Set",
 			messageFormat: "The length of '{0}' must be set (or validated) before reading into it",
 			category: k_Category,
@@ -64,7 +64,7 @@ namespace CM3D2.Serialization.SourceGenerators
 		);
 
 		private static readonly DiagnosticDescriptor LengthNotValidatedRule = new(
-			id: "CM3D2Serialization026",
+			id: "CM3D2Serialization055",
 			title: "Length Not Validated",
 			messageFormat: "The length of '{0}' must be validated (or set) before writing it",
 			category: k_Category,

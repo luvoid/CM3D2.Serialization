@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CM3D2.Serialization.SourceGenerators.Tests", "CM3D2.Serialization.SourceGenerators.Tests\CM3D2.Serialization.SourceGenerators.Tests.csproj", "{0AC7B424-8419-40F7-B72D-B5FFBBDB429F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CM3D2.Serialization.Core", "CM3D2.Serialization.Core\CM3D2.Serialization.Core.csproj", "{B9879777-257B-4526-9FFF-0A35FB0F1041}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{0AC7B424-8419-40F7-B72D-B5FFBBDB429F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AC7B424-8419-40F7-B72D-B5FFBBDB429F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AC7B424-8419-40F7-B72D-B5FFBBDB429F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9879777-257B-4526-9FFF-0A35FB0F1041}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9879777-257B-4526-9FFF-0A35FB0F1041}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9879777-257B-4526-9FFF-0A35FB0F1041}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9879777-257B-4526-9FFF-0A35FB0F1041}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

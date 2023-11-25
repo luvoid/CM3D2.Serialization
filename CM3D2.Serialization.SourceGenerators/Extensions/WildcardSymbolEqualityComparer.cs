@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -34,9 +35,9 @@ namespace CM3D2.Serialization.SourceGenerators.Extensions
 
 		bool IEqualityComparer.Equals(object x, object y)
 		{
-			if (x is ISymbol xSymbol && y is ISymbol ySymbol)
+			if (x is ISymbol or null && y is ISymbol or null)
 			{
-				return Equals(xSymbol, ySymbol);
+				return Equals(x as ISymbol, y as ISymbol);
 			}
 			else
 			{

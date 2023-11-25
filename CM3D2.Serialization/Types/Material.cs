@@ -4,13 +4,14 @@ using System.Text;
 
 namespace CM3D2.Serialization.Types
 {
-    // ImportCM.ReadMaterial
-    public partial class Material : ICM3D2Serializable, ISummarizable
+	// ImportCM.ReadMaterial
+	public partial class Material : ICM3D2Serializable, ISummarizable
 	{
 		public string name;
 		public string shaderName;
 		public string shaderFilename;
 
+		[DeepSerialized]
 		public List<Property> properties = new();
 
 		public abstract class Property : ICM3D2Serializable
@@ -167,6 +168,7 @@ namespace CM3D2.Serialization.Types
 					reader.Read(out TexProperty newProp);
 					prop = newProp;
 				}
+#pragma warning disable CM3D2Serialization021 // Field Read / Write out of Order
 				else if (propType == ColProperty.Type)
 				{
 					reader.Read(out ColProperty newProp);
@@ -182,6 +184,7 @@ namespace CM3D2.Serialization.Types
 					reader.Read(out FProperty newProp);
 					prop = newProp;
 				}
+#pragma warning restore CM3D2Serialization021 // Field Read / Write out of Order
 				else if (propType == "end")
 				{
 					break;

@@ -4,10 +4,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading;
 
 namespace CM3D2.Serialization.SourceGenerators.Extensions
 {
@@ -63,16 +61,15 @@ namespace CM3D2.Serialization.SourceGenerators.Extensions
 			return new MemberPath(array);
 		}
 
+		private readonly ImmutableArray<ISymbol> array;
 
-		private ImmutableArray<ISymbol> array;
-
-		public MemberPath(ImmutableArray<ISymbol> fields)
+		public MemberPath(ImmutableArray<ISymbol> pathSymbols)
 		{
-			array = fields;
+			array = pathSymbols;
 		}
 
-		public MemberPath(IEnumerable<ISymbol> fields)
-			: this(fields.ToImmutableArray())
+		public MemberPath(IEnumerable<ISymbol> pathSymbols)
+			: this(pathSymbols.ToImmutableArray())
 		{ }
 
 		public override string ToString()
@@ -118,6 +115,11 @@ namespace CM3D2.Serialization.SourceGenerators.Extensions
 		public bool Equals(MemberPath other)
 		{
 			return array.Equals(other.array);
+		}
+
+		public bool Equals(MemberPath other, IEqualityComparer<ISymbol> comparer)
+		{
+			return ((IStructuralEquatable)array).Equals(other.array, comparer.AsObjectEqualityComparer());
 		}
 
 		bool IStructuralEquatable.Equals(object other, IEqualityComparer comparer)
@@ -208,6 +210,28 @@ namespace CM3D2.Serialization.SourceGenerators.Extensions
 		public MemberPath Replace(ISymbol oldValue, ISymbol newValue, IEqualityComparer<ISymbol> equalityComparer)
 		{
 			return (MemberPath)array.Replace(oldValue, newValue, equalityComparer);
+		}
+
+		public bool StartsWith(MemberPath memberPath, IEqualityComparer<ISymbol> equalityComparer)
+		{
+			if (this.Count < memberPath.Count) return false;
+			var startSegment = this;
+			if (startSegment.Count > memberPath.Count)
+			{
+				startSegment = RemoveRange(memberPath.Count, this.Count - memberPath.Count);
+			}
+			return startSegment.Equals(memberPath, equalityComparer);
+		}
+
+		public bool EndsWith(MemberPath memberPath, IEqualityComparer<ISymbol> equalityComparer)
+		{
+			if (this.Count < memberPath.Count) return false;
+			var startSegment = this;
+			if (startSegment.Count > memberPath.Count)
+			{
+				startSegment = RemoveRange(0, this.Count - memberPath.Count);
+			}
+			return startSegment.Equals(memberPath, equalityComparer);
 		}
 
 		public IEnumerator<ISymbol> GetEnumerator()

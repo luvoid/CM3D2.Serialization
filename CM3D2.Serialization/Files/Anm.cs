@@ -45,8 +45,10 @@ namespace CM3D2.Serialization.Files
 
 		public readonly string signature = "CM3D2_ANIM";
 		public int version = (int)FileVersions.CM3D2;
+		[DeepSerialized]
 		public List<Track> tracks = new(); // Uses unique list serialization
 
+		[DeepSerializable]
 		public class Track
 		{
 			/// <summary>
@@ -54,9 +56,12 @@ namespace CM3D2.Serialization.Files
 			/// </summary>
 			public readonly ChannelIdType channelId = ChannelIdType.Track;
 			public string path;
+
+			[DeepSerialized]
 			public List<Channel> channels = new(); // Uses unique list serialization
 		}
 
+		[DeepSerializable]
 		public class Channel
 		{
 			/// <summary>
@@ -67,6 +72,7 @@ namespace CM3D2.Serialization.Files
 
 		}
 
+		[UnmanagedSerializable]
 		[StructLayout(LayoutKind.Sequential, Pack = 1)]
 		public struct Keyframe
 		{

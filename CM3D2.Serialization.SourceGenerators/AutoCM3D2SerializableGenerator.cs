@@ -205,7 +205,7 @@ using CM3D2.Serialization;
 	public static class TypeDeclarationNotAutoSerializableDiagnostic
 	{
 		private static DiagnosticDescriptor descriptor = new DiagnosticDescriptor(
-			id: "CM3D2Serialization001",
+			id: "CM3D2Serialization040",
 			title: "Unserializable Type Declaration",
 			messageFormat: "Cannot auto serialize type declaration '{0}'{1}",
 			category: "CM3D2.Serialization.AutoCM3D2Serializable",
@@ -230,7 +230,7 @@ using CM3D2.Serialization;
 	public static class FieldNotAutoSerializableDiagnostic
 	{
 		private static DiagnosticDescriptor descriptor = new DiagnosticDescriptor(
-			id: "CM3D2Serialization002",
+			id: "CM3D2Serialization041",
 			title: "Unserializable Field",
 			messageFormat: "Cannot auto serialize field '{0}'{1}",
 			category: "CM3D2.Serialization.AutoCM3D2Serializable",

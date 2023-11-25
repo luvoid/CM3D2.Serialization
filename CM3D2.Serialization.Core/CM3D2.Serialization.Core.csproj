@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- 
+  CM3D2.Serialization.Core is a sepseparate project that holds the bare minimum functionality.
+  This allows the core to be compiled separately without needing to distribute two separate assemblies.
+  This project's output assembly should only be used for source generators and unit tests.
+  -->
+  
+  <PropertyGroup>
+    <TargetFramework>net35</TargetFramework>
+    <ImplicitUsings>false</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <LangVersion>11.0</LangVersion>
+    <AssemblyName>CM3D2.Serialization</AssemblyName>
+    <RootNamespace>CM3D2.Serialization</RootNamespace>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  
+</Project>

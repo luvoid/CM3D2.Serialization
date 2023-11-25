@@ -8,6 +8,7 @@
     <AssemblyVersion>$(FileVersion).*</AssemblyVersion>
     <Deterministic>false</Deterministic>
     <LangVersion>10.0</LangVersion>
+    <IsRoslynComponent>true</IsRoslynComponent>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,5 +16,18 @@
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.5.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="all" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CM3D2.Serialization.Core\CM3D2.Serialization.Core.csproj" PrivateAssets="all" />
+  </ItemGroup>
   
+  <PropertyGroup>
+    <GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
+  </PropertyGroup>
+    
+  <Target Name="GetDependencyTargetPaths">
+      <ItemGroup>
+        <TargetPathWithTargetPlatformMoniker Include="..\CM3D2.Serialization.Core\bin\$(Configuration)\net35\CM3D2.Serialization.dll" IncludeRuntimeDependency="false" />
+      </ItemGroup>
+  </Target>
 </Project>

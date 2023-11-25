@@ -15,7 +15,7 @@ namespace CM3D2.Serialization.SourceGenerators
 	public class FileVersionAnalyzer : DiagnosticAnalyzer
 	{
 		private static readonly DiagnosticDescriptor FileVersionConstraintRule = new DiagnosticDescriptor(
-			id: "CM3D2Serialization032",
+			id: "CM3D2Serialization060",
 			title: "File Version Constraint",
 			messageFormat: "Minumum File Version = {0}",
 			category: "CM3D2.Serialization.FileVersion",

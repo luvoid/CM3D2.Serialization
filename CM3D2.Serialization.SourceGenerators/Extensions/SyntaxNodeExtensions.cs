@@ -132,38 +132,38 @@ namespace CM3D2.Serialization.SourceGenerators.Extensions
 			if (semanticModel == null) throw new ArgumentNullException(nameof(semanticModel));
 
 			ISymbol declaredSymbol;
-			if      (node is QueryContinuationSyntax                 qcon) declaredSymbol = semanticModel.GetDeclaredSymbol(qcon); // IRangeVariableSymbol?
-			else if (node is JoinIntoClauseSyntax                    jnin) declaredSymbol = semanticModel.GetDeclaredSymbol(jnin); // IRangeVariableSymbol?
-			else if (node is QueryClauseSyntax                       qury) declaredSymbol = semanticModel.GetDeclaredSymbol(qury); // IRangeVariableSymbol?
-			else if (node is CatchDeclarationSyntax                  ctch) declaredSymbol = semanticModel.GetDeclaredSymbol(ctch); // ILocalSymbol?
-			else if (node is ForEachStatementSyntax                  fore) declaredSymbol = semanticModel.GetDeclaredSymbol(fore); // ILocalSymbol?
-			else if (node is TypeParameterSyntax                     tprm) declaredSymbol = semanticModel.GetDeclaredSymbol(tprm); // ITypeParameterSymbol?
-			else if (node is ParameterSyntax                         prm ) declaredSymbol = semanticModel.GetDeclaredSymbol(prm ); // IParameterSymbol?
-			else if (node is ExternAliasDirectiveSyntax              exal) declaredSymbol = semanticModel.GetDeclaredSymbol(exal); // IAliasSymbol?
-			else if (node is UsingDirectiveSyntax                    usgd) declaredSymbol = semanticModel.GetDeclaredSymbol(usgd); // IAliasSymbol?
-			else if (node is SwitchLabelSyntax                       slbl) declaredSymbol = semanticModel.GetDeclaredSymbol(slbl); // ILabelSymbol?
-			else if (node is LabeledStatementSyntax                  lbl ) declaredSymbol = semanticModel.GetDeclaredSymbol(lbl ); // ILabelSymbol?
-			else if (node is TupleElementSyntax                      tple) declaredSymbol = semanticModel.GetDeclaredSymbol(tple); // ISymbol?
-			else if (node is VariableDeclaratorSyntax                dtor) declaredSymbol = semanticModel.GetDeclaredSymbol(dtor); // ISymbol?
-			else if (node is SingleVariableDesignationSyntax         svar) declaredSymbol = semanticModel.GetDeclaredSymbol(svar); // ISymbol?
-			else if (node is AccessorDeclarationSyntax               accs) declaredSymbol = semanticModel.GetDeclaredSymbol(accs); // IMethodSymbol?
-			else if (node is ArgumentSyntax                          arg ) declaredSymbol = semanticModel.GetDeclaredSymbol(arg ); // ISymbol?
-			else if (node is TupleExpressionSyntax                   tpl ) declaredSymbol = semanticModel.GetDeclaredSymbol(tpl ); // INamedTypeSymbol?
+			if (node is QueryContinuationSyntax qcon) declaredSymbol = semanticModel.GetDeclaredSymbol(qcon); // IRangeVariableSymbol?
+			else if (node is JoinIntoClauseSyntax jnin) declaredSymbol = semanticModel.GetDeclaredSymbol(jnin); // IRangeVariableSymbol?
+			else if (node is QueryClauseSyntax qury) declaredSymbol = semanticModel.GetDeclaredSymbol(qury); // IRangeVariableSymbol?
+			else if (node is CatchDeclarationSyntax ctch) declaredSymbol = semanticModel.GetDeclaredSymbol(ctch); // ILocalSymbol?
+			else if (node is ForEachStatementSyntax fore) declaredSymbol = semanticModel.GetDeclaredSymbol(fore); // ILocalSymbol?
+			else if (node is TypeParameterSyntax tprm) declaredSymbol = semanticModel.GetDeclaredSymbol(tprm); // ITypeParameterSymbol?
+			else if (node is ParameterSyntax prm) declaredSymbol = semanticModel.GetDeclaredSymbol(prm); // IParameterSymbol?
+			else if (node is ExternAliasDirectiveSyntax exal) declaredSymbol = semanticModel.GetDeclaredSymbol(exal); // IAliasSymbol?
+			else if (node is UsingDirectiveSyntax usgd) declaredSymbol = semanticModel.GetDeclaredSymbol(usgd); // IAliasSymbol?
+			else if (node is SwitchLabelSyntax slbl) declaredSymbol = semanticModel.GetDeclaredSymbol(slbl); // ILabelSymbol?
+			else if (node is LabeledStatementSyntax lbl) declaredSymbol = semanticModel.GetDeclaredSymbol(lbl); // ILabelSymbol?
+			else if (node is TupleElementSyntax tple) declaredSymbol = semanticModel.GetDeclaredSymbol(tple); // ISymbol?
+			else if (node is VariableDeclaratorSyntax dtor) declaredSymbol = semanticModel.GetDeclaredSymbol(dtor); // ISymbol?
+			else if (node is SingleVariableDesignationSyntax svar) declaredSymbol = semanticModel.GetDeclaredSymbol(svar); // ISymbol?
+			else if (node is AccessorDeclarationSyntax accs) declaredSymbol = semanticModel.GetDeclaredSymbol(accs); // IMethodSymbol?
+			else if (node is ArgumentSyntax arg) declaredSymbol = semanticModel.GetDeclaredSymbol(arg); // ISymbol?
+			else if (node is TupleExpressionSyntax tpl) declaredSymbol = semanticModel.GetDeclaredSymbol(tpl); // INamedTypeSymbol?
 			else if (node is AnonymousObjectCreationExpressionSyntax aoce) declaredSymbol = semanticModel.GetDeclaredSymbol(aoce); // INamedTypeSymbol?
-			else if (node is AnonymousObjectMemberDeclaratorSyntax   aomd) declaredSymbol = semanticModel.GetDeclaredSymbol(aomd); // IPropertySymbol?
-			else if (node is EventDeclarationSyntax                  evnt) declaredSymbol = semanticModel.GetDeclaredSymbol(evnt); // IEventSymbol?
-			else if (node is IndexerDeclarationSyntax                idxr) declaredSymbol = semanticModel.GetDeclaredSymbol(idxr); // IPropertySymbol?
-			else if (node is PropertyDeclarationSyntax               prop) declaredSymbol = semanticModel.GetDeclaredSymbol(prop); // IPropertySymbol?
-			else if (node is BasePropertyDeclarationSyntax           bprp) declaredSymbol = semanticModel.GetDeclaredSymbol(bprp); // ISymbol?
-			else if (node is BaseMethodDeclarationSyntax             meth) declaredSymbol = semanticModel.GetDeclaredSymbol(meth); // IMethodSymbol?
-			else if (node is EnumMemberDeclarationSyntax             emem) declaredSymbol = semanticModel.GetDeclaredSymbol(emem); // IFieldSymbol?
-			else if (node is DelegateDeclarationSyntax               delg) declaredSymbol = semanticModel.GetDeclaredSymbol(delg); // INamedTypeSymbol?
-			else if (node is BaseTypeDeclarationSyntax               type) declaredSymbol = semanticModel.GetDeclaredSymbol(type); // INamedTypeSymbol?
-			else if (node is FileScopedNamespaceDeclarationSyntax    fsns) declaredSymbol = semanticModel.GetDeclaredSymbol(fsns); // INamespaceSymbol?
-			else if (node is NamespaceDeclarationSyntax              ns  ) declaredSymbol = semanticModel.GetDeclaredSymbol(ns  ); // INamespaceSymbol?
-			else if (node is CompilationUnitSyntax                   comp) declaredSymbol = semanticModel.GetDeclaredSymbol(comp); // IMethodSymbol?
-			else if (node is MemberDeclarationSyntax                 mmbr) declaredSymbol = semanticModel.GetDeclaredSymbol(mmbr); // ISymbol?
-			else                                                           declaredSymbol = semanticModel.GetDeclaredSymbol(node);
+			else if (node is AnonymousObjectMemberDeclaratorSyntax aomd) declaredSymbol = semanticModel.GetDeclaredSymbol(aomd); // IPropertySymbol?
+			else if (node is EventDeclarationSyntax evnt) declaredSymbol = semanticModel.GetDeclaredSymbol(evnt); // IEventSymbol?
+			else if (node is IndexerDeclarationSyntax idxr) declaredSymbol = semanticModel.GetDeclaredSymbol(idxr); // IPropertySymbol?
+			else if (node is PropertyDeclarationSyntax prop) declaredSymbol = semanticModel.GetDeclaredSymbol(prop); // IPropertySymbol?
+			else if (node is BasePropertyDeclarationSyntax bprp) declaredSymbol = semanticModel.GetDeclaredSymbol(bprp); // ISymbol?
+			else if (node is BaseMethodDeclarationSyntax meth) declaredSymbol = semanticModel.GetDeclaredSymbol(meth); // IMethodSymbol?
+			else if (node is EnumMemberDeclarationSyntax emem) declaredSymbol = semanticModel.GetDeclaredSymbol(emem); // IFieldSymbol?
+			else if (node is DelegateDeclarationSyntax delg) declaredSymbol = semanticModel.GetDeclaredSymbol(delg); // INamedTypeSymbol?
+			else if (node is BaseTypeDeclarationSyntax type) declaredSymbol = semanticModel.GetDeclaredSymbol(type); // INamedTypeSymbol?
+			else if (node is FileScopedNamespaceDeclarationSyntax fsns) declaredSymbol = semanticModel.GetDeclaredSymbol(fsns); // INamespaceSymbol?
+			else if (node is NamespaceDeclarationSyntax ns) declaredSymbol = semanticModel.GetDeclaredSymbol(ns); // INamespaceSymbol?
+			else if (node is CompilationUnitSyntax comp) declaredSymbol = semanticModel.GetDeclaredSymbol(comp); // IMethodSymbol?
+			else if (node is MemberDeclarationSyntax mmbr) declaredSymbol = semanticModel.GetDeclaredSymbol(mmbr); // ISymbol?
+			else declaredSymbol = semanticModel.GetDeclaredSymbol(node);
 
 			if (declaredSymbol is T and not null)
 			{
@@ -175,18 +175,6 @@ namespace CM3D2.Serialization.SourceGenerators.Extensions
 				symbol = default;
 				return false;
 			}
-		}
-
-		
-
-		public static ImmutableArray<VariableInfo> GetVariableInfo(this VariableDeclarationSyntax declaration, SemanticModel semanticModel)
-		{
-			var builder = ImmutableArray.CreateBuilder<VariableInfo>(declaration.Variables.Count);
-			for (int i = 0; i < declaration.Variables.Count; i++)
-			{
-				builder[i] = new VariableInfo(declaration, declaration.Variables[i], semanticModel);
-			}
-			return builder.ToImmutable();
 		}
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using CM3D2.Serialization.Collections;
@@ -7,13 +8,13 @@ using CM3D2.Serialization.Types;
 
 namespace CM3D2.Serialization.Files
 {
-    // ImportCM.LoadSkinMesh_R
+	// ImportCM.LoadSkinMesh_R
 
-    /// <remarks>
-    ///	If <c>2100 &lt; version &lt; 2200</c>, COM3D2.5 will throw an error if the
-    ///	filename does not start with "crc_", "crx_", or "gp03_".
-    /// </remarks>
-    public partial class Model : ICM3D2Serializable, ISummarizable
+	/// <remarks>
+	///	If <c>2100 &lt; version &lt; 2200</c>, COM3D2.5 will throw an error if the
+	///	filename does not start with "crc_", "crx_", or "gp03_".
+	/// </remarks>
+	public partial class Model : ICM3D2Serializable, ISummarizable
 	{
 		public readonly string signature = "CM3D2_MESH";
 
@@ -30,7 +31,7 @@ namespace CM3D2.Serialization.Files
 		/// </summary>
 		public string meshObjectName;
 
-		public int childCount;
+		private int childCount;
 
 		/// <summary>
 		/// Minimum File Version: 2104 <br/>
@@ -52,9 +53,11 @@ namespace CM3D2.Serialization.Files
 		[LengthDefinedBy(nameof(childCount))]
 		public LengthDefinedArray<int> childParents = new();
 
+		[DeepSerialized]
 		[LengthDefinedBy(nameof(childCount))]
 		public List<LocalTransform> childLocalTransforms = new();
 
+		[DeepSerializable]
 		public struct LocalTransform
 		{
 			public Float3 localPosition;
@@ -65,9 +68,9 @@ namespace CM3D2.Serialization.Files
 			public BoolPrefixedNullable<Float3> localScale;
 		}
 
-		public int vertexCount;
-		public int submeshCount;
-		public int bindPoseCount;
+		private int vertexCount;
+		private int submeshCount;
+		private int bindPoseCount;
 
 		[LengthDefinedBy(nameof(bindPoseCount))]
 		public LengthDefinedStringList boneUseNames = new();
@@ -112,6 +115,7 @@ namespace CM3D2.Serialization.Files
 
 
 		// Extra Blocks
+		[DeepSerialized]
 		public List<IBlock> blocks = new();
 
 		public readonly string endTag = "end";
@@ -157,15 +161,22 @@ namespace CM3D2.Serialization.Files
 			reader.Read(out modelName);
 			reader.Read(out meshObjectName);
 
-			reader.DebugLog("childNames");
+			reader.Read(out childCount);
+
+			if (2104 <= version && version < 2200)
+			{
+				reader.Read(out shadowCastingMode);
+			}
+
+			reader.DebugLog(nameof(childNames));
 			childNames.SetLength(childCount);
 			reader.Read(ref childNames);
 
-			reader.DebugLog("childParents");
+			reader.DebugLog(nameof(childParents));
 			childParents.SetLength(childCount);
 			reader.Read(ref childParents);
 
-			reader.DebugLog("childLocalTransforms");
+			reader.DebugLog(nameof(childLocalTransforms));
 			childLocalTransforms.Clear();
 			childLocalTransforms.Capacity = childNames.Count;
 			for (int i = 0; i < childNames.Count; i++)
@@ -180,28 +191,31 @@ namespace CM3D2.Serialization.Files
 				childLocalTransforms.Add(localTransform);
 			}
 
-			reader.DebugLog("vertexCount");
+			reader.DebugLog(nameof(vertexCount));
 			reader.Read(out vertexCount);
 
-			reader.DebugLog("submeshCount");
+			reader.DebugLog(nameof(submeshCount));
 			reader.Read(out submeshCount);
 
-			reader.DebugLog("vertexGroupNames");
+			reader.DebugLog(nameof(bindPoseCount));
+			reader.Read(out bindPoseCount);
+
+			reader.DebugLog(nameof(boneUseNames));
 			boneUseNames.SetLength(bindPoseCount);
 			reader.Read(ref boneUseNames);
 
-			reader.DebugLog("bindPoses");
+			reader.DebugLog(nameof(bindPoses));
 			bindPoses.SetLength(bindPoseCount);
 			reader.Read(ref bindPoses);
 
-			reader.DebugLog("vertices");
+			reader.DebugLog(nameof(vertices));
 			vertices.SetLength(vertexCount);
 			reader.Read(ref vertices);
 
-			reader.DebugLog("tangents");
+			reader.DebugLog(nameof(tangents));
 			reader.Read(out tangents);
 
-			reader.DebugLog("boneWeights");
+			reader.DebugLog(nameof(boneWeights));
 			boneWeights.SetLength(vertexCount);
 			reader.Read(ref boneWeights);
 
@@ -222,7 +236,9 @@ namespace CM3D2.Serialization.Files
 				}
 				else
 				{
+#pragma warning disable CM3D2Serialization021 // Field Read / Write out of Order
 					reader.Read(out EmptyBlock emptyBlock);
+#pragma warning restore CM3D2Serialization021 // Field Read / Write out of Order
 					block = emptyBlock;
 				}
 				blocks.Add(block);
@@ -238,6 +254,14 @@ namespace CM3D2.Serialization.Files
 			writer.Write(version);
 			writer.Write(modelName);
 			writer.Write(meshObjectName);
+
+			childCount = childNames.Count;
+			writer.Write(childCount);
+
+			if (2104 <= version && version < 2200)
+			{
+				writer.Write(shadowCastingMode);
+			}
 
 			childNames.ValidateLength(childCount, nameof(childNames), nameof(childCount));
 			writer.Write(childNames);
@@ -262,6 +286,9 @@ namespace CM3D2.Serialization.Files
 
 			submeshCount = submeshTriangles.Count;
 			writer.Write(submeshCount);
+
+			bindPoseCount = bindPoses.Length;
+			writer.Write(bindPoseCount);
 
 			boneUseNames.ValidateLength(bindPoseCount, nameof(bindPoses), nameof(bindPoseCount));
 			writer.Write(boneUseNames);

@@ -21,7 +21,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="UnityEngine" Version="5.6.1" PrivateAssets="all" ExcludeAssets="runtime"/>
+    <PackageReference Include="UnityEngine" Version="5.6.1" PrivateAssets="all" ExcludeAssets="runtime" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CM3D2.Serialization.SourceGenerators\CM3D2.Serialization.SourceGenerators.csproj">
@@ -32,5 +32,10 @@
       <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
       <PrivateAssets>all</PrivateAssets>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Directly include all the files from CM3D2.Serialization.Core. See CM3D2.Serialization.Core.csproj for more info.  -->
+    <Compile Include="..\CM3D2.Serialization.Core\**\*.cs" />
+    <Compile Remove="..\CM3D2.Serialization.Core\obj\**\*.cs" />
   </ItemGroup>
 </Project>

@@ -17,7 +17,6 @@
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CM3D2.Serialization.SourceGenerators\CM3D2.Serialization.SourceGenerators.csproj" />
     <ProjectReference Include="..\CM3D2.Serialization\CM3D2.Serialization.csproj">
       <Project>{59786fc6-0c86-495e-ab89-7cfabcc966e6}</Project>
       <Name>CM3D2.Serialization</Name>
@@ -31,9 +30,9 @@
     <PackageReference Include="coverlet.collector" Version="3.1.0" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Resources\*.cs" Condition="false" />
     <Content Include="Resources\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Compile Update="Resources\*.cs" Condition="false" />
   </ItemGroup>
 </Project>
