@@ -19,12 +19,12 @@ namespace CM3D2.Serialization.Collections
 			: this(0)
 		{ }
 
-		private LengthDefinedStringList(int size)
+		public LengthDefinedStringList(int size)
 			: base(size)
 		{ }
 
-		public LengthDefinedStringList(IList<string> list)
-			: base(list)
+		public LengthDefinedStringList(IEnumerable<string> collection)
+			: base(collection)
 		{ }
 
 		void ICM3D2SerializableInstance.WriteWith(ICM3D2Writer writer)

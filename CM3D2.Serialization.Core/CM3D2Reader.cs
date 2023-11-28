@@ -53,7 +53,7 @@ namespace CM3D2.Serialization
 		public void Read(out string str, Encoding encoding = null)
 		{
 			if (encoding == null) encoding = Encoding.UTF8;
-			Read(out Int7Bit32 size);
+			Read(out LEB128 size);
 			byte[] bytes = new byte[size];
 			int read = m_Stream.Read(bytes, 0, bytes.Length);
 			if (read != bytes.Length) throw new EndOfStreamException();

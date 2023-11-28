@@ -22,8 +22,8 @@ namespace CM3D2.Serialization.Collections
 			: base(size)
 		{ }
 
-		public LengthPrefixedStringList(IList<string> list)
-			: base(list)
+		public LengthPrefixedStringList(IEnumerable<string> collection)
+			: base(collection)
 		{ }
 
 		void ICM3D2Serializable.WriteWith(ICM3D2Writer writer)

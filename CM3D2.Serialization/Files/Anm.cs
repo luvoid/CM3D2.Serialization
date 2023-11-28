@@ -5,10 +5,11 @@ using System.Runtime.InteropServices;
 using System.Text;
 using CM3D2.Serialization.Collections;
 using CM3D2.Serialization.Types;
+using static CM3D2.Serialization.Files.Anm;
 
 namespace CM3D2.Serialization.Files
 {
-    public class Anm : ICM3D2Serializable, ISummarizable
+    public partial class Anm : ICM3D2Serializable, ISummarizable
 	{
 		public enum ChannelIdType : byte
 		{
@@ -61,8 +62,8 @@ namespace CM3D2.Serialization.Files
 			public List<Channel> channels = new(); // Uses unique list serialization
 		}
 
-		[DeepSerializable]
-		public class Channel
+		[AutoCM3D2Serializable]
+		public partial class Channel : ICM3D2Serializable
 		{
 			/// <summary>
 			/// Must be greater than 1
@@ -108,8 +109,7 @@ namespace CM3D2.Serialization.Files
 					{
 						throw new ArgumentOutOfRangeException(nameof(channel.channelId), "Channel.channelId must be a value greater than 1");
 					}
-					writer.Write(channel.channelId);
-					writer.Write(channel.keyframes);
+					writer.Write(channel);
 				}
 			}
 
@@ -133,10 +133,8 @@ namespace CM3D2.Serialization.Files
 
 				while (reader.Peek<ChannelIdType>() > ChannelIdType.Track)
 				{
-					Channel channel = new Channel();
+					reader.Read(out Channel channel);
 					track.channels.Add(channel);
-					reader.Read(out channel.channelId);
-					reader.Read(out channel.keyframes);
 				}
 			}
 
@@ -148,7 +146,6 @@ namespace CM3D2.Serialization.Files
 
 			reader.Read(out useMuneKey);
 		}
-
 
 		public string Summarize()
 		{

@@ -1,4 +1,5 @@
 ﻿using CM3D2.Serialization.SourceGenerators.Extensions;
+using CM3D2.Serialization.Types;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -81,6 +82,15 @@ namespace CM3D2.Serialization.SourceGenerators
 			LengthNotValidatedRule
 		);
 
+		private static ImmutableArray<Type> validLengthDefiningTypes => ImmutableArray.Create(
+			typeof(int),
+			typeof(short),
+			typeof(ushort),
+			typeof(byte),
+			typeof(sbyte),
+			typeof(LEB128)
+		);
+
 		public override void Initialize(AnalysisContext context)
 		{
 			context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
@@ -145,13 +155,15 @@ namespace CM3D2.Serialization.SourceGenerators
 				return null;
 			}
 
-			if ((  (foundSymbol is IFieldSymbol    fs) ? fs.Type.Name
-				 : (foundSymbol is IPropertySymbol ps) ? ps.Type.Name
-				 : null
-				) != typeof(int).Name)
+			ITypeSymbol foundType = 
+				  (foundSymbol is IFieldSymbol fs) ? fs.Type
+				: (foundSymbol is IPropertySymbol ps) ? ps.Type
+				: null;
+
+			if (foundType == null || validLengthDefiningTypes.Any(x => foundType.EqualsType(x)))
 			{
 				diagnostic = Diagnostic.Create(InvalidLengthDefinedByRule, attributeArgSyntax.GetLocation(),
-					$"field or property '{attributeArg.Value}' must be of type 'int'");
+					$"field or property '{attributeArg.Value}' must be of integral numeric type 'Int32' or smaller.");
 				return foundSymbol;
 			}
 

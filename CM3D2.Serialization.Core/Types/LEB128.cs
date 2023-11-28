@@ -6,15 +6,41 @@ using System.Text;
 
 namespace CM3D2.Serialization.Types
 {
-    /// <summary>
-    /// A 7-Bit Encoded Int32
-    /// </summary>
-    public struct Int7Bit32 : ICM3D2Serializable, IComparable, IFormattable, IConvertible, IComparable<Int7Bit32>, IEquatable<Int7Bit32>, IComparable<int>, IEquatable<int>
+	/// <summary>
+	/// Little Endian Base 128, aka, "a 7-Bit Encoded Int32".
+	/// </summary>
+	public struct LEB128 : ICM3D2Serializable, IComparable, IFormattable, IConvertible, IComparable<LEB128>, IEquatable<LEB128>, IComparable<int>, IEquatable<int>
     {
         [DeepSerialized]
         private int m_Value;
 
-		public void ReadWith(ICM3D2Reader reader)
+        /// <summary>
+        /// Returns the size in bytes when the <paramref name="value"/> is encoded as an <see cref="LEB128"/>.
+        /// </summary>
+        public static int SizeOfValue(int value)
+        {
+            int size = 1;
+			uint v = (uint)value;   // support negative numbers
+			unchecked
+			{
+				while (v >= 0x80)
+				{
+                    size++;
+					v >>= 7;
+				}
+			}
+
+            return size;
+		}
+
+		/// <inheritdoc cref="SizeOfValue(int)"/>
+		public static int SizeOfValue(LEB128 value)
+		{
+			return SizeOfValue(value.m_Value);
+		}
+
+
+		void ICM3D2Serializable.ReadWith(ICM3D2Reader reader)
 		{
             // https://github.com/mono/mono/blob/59a40d68879b69416f15a1d78198483cddda8cc0/mcs/class/referencesource/mscorlib/system/io/binaryreader.cs#L626-L644
             // Creative Commons Attribution-Share Alike 3.0 United States License
@@ -39,7 +65,7 @@ namespace CM3D2.Serialization.Types
             while ((b & 0x80) != 0);
         }
 
-        public void WriteWith(ICM3D2Writer writer)
+        void ICM3D2Serializable.WriteWith(ICM3D2Writer writer)
         {
             // https://github.com/mono/mono/blob/59a40d68879b69416f15a1d78198483cddda8cc0/mcs/class/referencesource/mscorlib/system/io/binarywriter.cs#L462-L471
             // Creative Commons Attribution-Share Alike 3.0 United States License
@@ -68,7 +94,7 @@ namespace CM3D2.Serialization.Types
 
 		public override bool Equals(object obj)
         {
-            if (obj is Int7Bit32 int7bit32)
+            if (obj is LEB128 int7bit32)
             {
                 return m_Value.Equals(int7bit32.m_Value);
             }
@@ -83,71 +109,71 @@ namespace CM3D2.Serialization.Types
             return m_Value.GetHashCode();
         }
 
-        public int CompareTo(Int7Bit32 other)
+        public int CompareTo(LEB128 other)
         {
             return m_Value.CompareTo(other.m_Value);
         }
 
-        public bool Equals(Int7Bit32 other)
+        public bool Equals(LEB128 other)
         {
             return m_Value.Equals(other.m_Value);
         }
 
-        public static bool operator >(Int7Bit32 lhs, int rhs)
+        public static bool operator >(LEB128 lhs, int rhs)
         {
             return lhs.m_Value > rhs;
         }
-        public static bool operator <(Int7Bit32 lhs, int rhs)
+        public static bool operator <(LEB128 lhs, int rhs)
         {
             return lhs.m_Value < rhs;
         }
-        public static bool operator >=(Int7Bit32 lhs, int rhs)
+        public static bool operator >=(LEB128 lhs, int rhs)
         {
             return lhs.m_Value >= rhs;
         }
-        public static bool operator <=(Int7Bit32 lhs, int rhs)
+        public static bool operator <=(LEB128 lhs, int rhs)
         {
             return lhs.m_Value <= rhs;
         }
-        public static bool operator ==(Int7Bit32 lhs, int rhs)
+        public static bool operator ==(LEB128 lhs, int rhs)
         {
             return lhs.m_Value == rhs;
         }
-        public static bool operator !=(Int7Bit32 lhs, int rhs)
+        public static bool operator !=(LEB128 lhs, int rhs)
         {
             return lhs.m_Value != rhs;
         }
-        public static bool operator >(Int7Bit32 lhs, Int7Bit32 rhs)
+        public static bool operator >(LEB128 lhs, LEB128 rhs)
         {
             return lhs.m_Value > rhs.m_Value;
         }
-        public static bool operator <(Int7Bit32 lhs, Int7Bit32 rhs)
+        public static bool operator <(LEB128 lhs, LEB128 rhs)
         {
             return lhs.m_Value < rhs.m_Value;
         }
-        public static bool operator >=(Int7Bit32 lhs, Int7Bit32 rhs)
+        public static bool operator >=(LEB128 lhs, LEB128 rhs)
         {
             return lhs.m_Value >= rhs.m_Value;
         }
-        public static bool operator <=(Int7Bit32 lhs, Int7Bit32 rhs)
+        public static bool operator <=(LEB128 lhs, LEB128 rhs)
         {
             return lhs.m_Value <= rhs.m_Value;
         }
-        public static bool operator ==(Int7Bit32 lhs, Int7Bit32 rhs)
+        public static bool operator ==(LEB128 lhs, LEB128 rhs)
         {
             return lhs.m_Value == rhs.m_Value;
         }
-        public static bool operator !=(Int7Bit32 lhs, Int7Bit32 rhs)
+        public static bool operator !=(LEB128 lhs, LEB128 rhs)
         {
             return lhs.m_Value != rhs.m_Value;
         }
 
-        public static explicit operator Int7Bit32(int from)
+        public static explicit operator LEB128(int from)
         {
-            return new Int7Bit32() { m_Value = from };
+            return new LEB128() { m_Value = from };
         }
 
-        public static implicit operator int(Int7Bit32 from)
+        public static implicit operator int(LEB128 from)
         {
             return from.m_Value;
         }

@@ -35,4 +35,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Resources\dress236_onep_i_.menu" />
+  </ItemGroup>
 </Project>

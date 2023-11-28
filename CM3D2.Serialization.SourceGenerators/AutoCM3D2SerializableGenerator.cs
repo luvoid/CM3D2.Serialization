@@ -103,34 +103,7 @@ namespace CM3D2.Serialization.SourceGenerators
 				));
 			}
 
-			// Collect all the fields
-			var fields = from member in userType.Members 
-			             where member.IsKind(SyntaxKind.FieldDeclaration)
-			             select member as FieldDeclarationSyntax;
-
-			StringBuilder readerCode = new StringBuilder();
-			StringBuilder writerCode = new StringBuilder();
-
-			foreach (var field in fields)
-			{
-				// Don't serialize static variables
-				if (field.Modifiers.Any(SyntaxKind.StaticKeyword)) continue;
-
-				foreach (var variable in field.Declaration.Variables)
-				{
-					if (field.Modifiers.Any(SyntaxKind.ReadOnlyKeyword))
-					{
-						reportDiagnostic(FieldNotAutoSerializableDiagnostic.Create(
-							variable.Identifier,
-							"because it is readonly",
-							field.GetLocation()
-						));
-					}
-
-					readerCode.AppendLine($"\t\treader.Read(out {variable.Identifier});");
-					writerCode.AppendLine($"\t\twriter.Write({variable.Identifier});");
-				}
-			}
+			GenerateMethodSource(userType, out var readerCode, out var writerCode, reportDiagnostic);
 
 			// add the generated implementation to the compilation
 			string source =
@@ -186,6 +159,50 @@ using CM3D2.Serialization;
 ";
 			return source;
 		}	
+	
+		public static void GenerateMethodSource(TypeDeclarationSyntax userType,
+			out StringBuilder readerCode, out StringBuilder writerCode,
+			Action<Diagnostic> reportDiagnostic = null)
+		{
+			// Collect all the fields
+			var fields = from member in userType.Members
+						 where member.IsKind(SyntaxKind.FieldDeclaration)
+						 select member as FieldDeclarationSyntax;
+
+			readerCode = new StringBuilder();
+			writerCode = new StringBuilder();
+
+			foreach (var field in fields)
+			{
+				// Don't serialize static variables
+				if (field.Modifiers.Any(SyntaxKind.StaticKeyword)) continue;
+
+				foreach (var variable in field.Declaration.Variables)
+				{
+					//if (reportDiagnostic != null && field.Modifiers.Any(SyntaxKind.ReadOnlyKeyword))
+					//{
+					//	reportDiagnostic(FieldNotAutoSerializableDiagnostic.Create(
+					//		variable.Identifier,
+					//		"because it is readonly",
+					//		field.GetLocation()
+					//	));
+					//}
+
+					if (field.Modifiers.Any(SyntaxKind.ReadOnlyKeyword))
+					{
+						readerCode.AppendLine($"\t\treader.Read(out {field.Declaration.Type} temp_{variable.Identifier});");
+						readerCode.AppendLine($"\t\tif (temp_{variable.Identifier} != {variable.Identifier})");
+						readerCode.AppendLine($"\t\t\tthrow new FormatException($\"Expected {{nameof({variable.Identifier})}} \\\"{{{variable.Identifier}}}\\\" but instead found \\\"{{temp_{variable.Identifier}}}\\\"\");");
+					}
+					else
+					{
+						readerCode.AppendLine($"\t\treader.Read(out {variable.Identifier});");
+					}
+
+					writerCode.AppendLine($"\t\twriter.Write({variable.Identifier});");
+				}
+			}
+		}
 	}
 
 	public class AutoCM3D2SerializableSyntaxReciever : ISyntaxReceiver

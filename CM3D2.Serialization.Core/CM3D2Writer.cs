@@ -35,7 +35,7 @@ namespace CM3D2.Serialization
 			str ??= "";
 			if (encoding == null) encoding = Encoding.UTF8;
 			byte[] bytes = encoding.GetBytes(str);
-			Write((Int7Bit32)bytes.Length);
+			Write((LEB128)bytes.Length);
 			m_Stream.Write(bytes, 0, bytes.Length);
 		}
 
