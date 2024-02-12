@@ -27,9 +27,10 @@ namespace CM3D2.Serialization.Tests
 			return mate;
 		}
 
-		protected override string ExampleFilePath => k_ExampleMatePath;
+		protected override string ExampleFilePath => k_ExampleMatePathCube;
 
 		const string k_ExampleMatePath = "Resources/face002_skin.mate";
+		const string k_ExampleMatePathCube = "Resources/CubeLayout_1_lilToon.mate";
 
 		[TestMethod] public override void SerializeTest() => DoSerializeTest();
 		[TestMethod] public override void DeserializeTest() => DoDeserializeTest();

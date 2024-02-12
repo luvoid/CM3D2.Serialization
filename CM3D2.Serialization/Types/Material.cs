@@ -56,6 +56,7 @@ namespace CM3D2.Serialization.Types
 			public partial struct Tex2DSubProperty : ICM3D2Serializable
 			{
 				public static readonly string Subtype = "tex2d";
+				public static readonly string CubeSubtype = "cube";
 				public string name;
 				public string path;
 				public Float2 offset;
@@ -73,7 +74,8 @@ namespace CM3D2.Serialization.Types
 			protected override void ReadWith(ICM3D2Reader reader)
 			{
 				reader.Read(out subtag);
-				if (subtag == Tex2DSubProperty.Subtype)
+				if (subtag == Tex2DSubProperty.Subtype
+					|| subtag == Tex2DSubProperty.CubeSubtype)
 				{
 					reader.Read(out tex2d);
 				}
@@ -86,7 +88,8 @@ namespace CM3D2.Serialization.Types
 			protected override void WriteWith(ICM3D2Writer writer)
 			{
 				writer.Write(subtag);
-				if (subtag == Tex2DSubProperty.Subtype)
+				if (subtag == Tex2DSubProperty.Subtype
+					|| subtag == Tex2DSubProperty.CubeSubtype)
 				{
 					writer.Write(tex2d);
 				}
@@ -191,6 +194,7 @@ namespace CM3D2.Serialization.Types
 				}
 				else
 				{
+					reader.DebugLog($"Found property with invalid type '{propType}'");
 					throw new FormatException($"Found property with invalid type '{propType}'");
 				}
 				properties.Add(prop);
