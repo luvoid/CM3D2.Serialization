@@ -24,9 +24,14 @@ namespace CM3D2.Serialization
 			{
 				isUnmanaged = true;
 			}
-			else if (type.IsGenericType || !type.IsValueType)
+			else if (!type.IsValueType)
 			{
 				isUnmanaged = false;
+			}
+			else if (type.IsGenericParameter)
+            {
+				bool hasStructConstraint = (type.GenericParameterAttributes & GenericParameterAttributes.NotNullableValueTypeConstraint) != 0;
+                isUnmanaged = hasStructConstraint && type.GetGenericParameterConstraints().All(IsUnmanaged);
 			}
 			else
 			{

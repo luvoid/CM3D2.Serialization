@@ -75,6 +75,11 @@ namespace CM3D2.Serialization
 				val = (T)(object)ReadBool();
 			}
 
+			else if (type.IsGenericTypeDefinition)
+			{
+				throw new ArgumentException($"Cannot read struct {type.Name} because it is a generic type definition.");
+			}
+
 			else if (!type.IsUnmanaged())
 			{
 				throw new ArgumentException($"Cannot read struct {type.Name} because it is not an unmanaged type.");
@@ -153,13 +158,20 @@ namespace CM3D2.Serialization
 				marshalType = type;
 			}
 
-			object obj;
-			fixed (byte* ptr = bytes)
-			{
-				obj = Marshal.PtrToStructure((IntPtr)ptr, marshalType);
-			}
+			try
+            {
+                object obj;
+                fixed (byte* ptr = bytes)
+                {
+                    obj = Marshal.PtrToStructure((IntPtr)ptr, marshalType);
+                }
 
-			return (T)obj;
+                return (T)obj;
+            }
+			catch (Exception ex)
+			{
+				throw new ArgumentException($"Exception when attempting to cast bytes to {type}", ex);
+			}
 		}
 
 		private void AssertCanPeak()

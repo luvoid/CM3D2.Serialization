@@ -1,5 +1,6 @@
 ﻿using CM3D2.Serialization.Files;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,13 +11,12 @@ using System.Threading.Tasks;
 namespace CM3D2.Serialization.Tests
 {
 	public abstract class FileTests<T> : CommonTests
-		where T : class, ICM3D2Serializable, ISummarizable
+		where T : class, ICM3D2Serializable
 	{
 		protected abstract T CreateExample();
 
 		protected abstract string ExampleFilePath { get; }
 
-		[TestMethod]
 		public abstract void SerializeTest();
 		public void DoSerializeTest()
 		{
@@ -32,7 +32,6 @@ namespace CM3D2.Serialization.Tests
 			Console.WriteLine(result.ToHexString());
 		}
 
-		[TestMethod]
 		public abstract void DeserializeTest();
 		public void DoDeserializeTest()
 		{
@@ -43,10 +42,9 @@ namespace CM3D2.Serialization.Tests
 				example = m_Serializer.Deserialize<T>(file);
 			}
 
-			Console.WriteLine($"{filePath}: {example.Summarize()}");
+			Logger.LogMessage($"{filePath}: {example switch { ISummarizable summarizable => summarizable.Summarize(), _ => example.ToString() }}");
 		}
 
-		[TestMethod]
 		public abstract void SerializeAndDeserializeTest();
 		public void DoSerializeAndDeserializeTest()
 		{
@@ -55,7 +53,7 @@ namespace CM3D2.Serialization.Tests
 			// Serialize
 			m_Serializer.Serialize(m_Stream, example);
 
-			string summaryA = example.Summarize();
+			string summaryA = example switch { ISummarizable summarizable => summarizable.Summarize(), _ => example.ToString() };
 			Console.WriteLine($"{typeof(T).Name.ToLower()} = {summaryA}");
 
 
@@ -65,13 +63,12 @@ namespace CM3D2.Serialization.Tests
 			// Deserialize
 			example = m_Serializer.Deserialize<T>(m_Stream);
 
-			string summaryB = example.Summarize();
+			string summaryB = example switch { ISummarizable summarizable => summarizable.Summarize(), _ => example.ToString() };
 			Console.WriteLine($"{typeof(T).Name.ToLower()} = {summaryB}");
 
 			Assert.AreEqual(summaryA, summaryB);
 		}
 		
-		[TestMethod]
 		public abstract void UnchangedTest();
 		public void DoUnchangedTest()
 		{
